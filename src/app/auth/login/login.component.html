@@ -1,0 +1,107 @@
+<div class="min-h-screen bg-amber-50 flex items-center justify-center px-4">
+    <div class="w-full max-w-md bg-white rounded-xl shadow-sm border">
+        <div class="text-center p-6">
+            <h2 class="text-3xl font-serif text-gray-800">Welcome Back</h2>
+            <p class="text-sm text-gray-600 mt-2">Sign in to your Bella Beauty account</p>
+        </div>
+        <form [formGroup]="loginForm" (ngSubmit)="onSignIn()" class="px-6 pb-6 space-y-6">
+            <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700" for="email">Email</label>
+                <input id="email" type="email" formControlName="email" placeholder="Enter your email"
+                    (input)="onFieldInput()"
+                    [class]="'w-full rounded-[10px] border px-4 py-2 focus:outline-none focus:ring-2 ' + 
+                    (hasFieldError('email') ? 'border-red-500 bg-red-50 focus:ring-red-300' : 'border-gray-200 bg-amber-50 focus:ring-pink-300')" />
+                @if (hasFieldError('email')) {
+                <div class="text-sm text-red-600 mt-1">
+                    {{ getFieldError('email') }}
+                </div>
+                }
+            </div>
+
+            <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700" for="password">Password</label>
+                <input id="password" type="password" formControlName="password" placeholder="Enter your password"
+                    (input)="onFieldInput()"
+                    [class]="'w-full rounded-[10px] border px-4 py-2 focus:outline-none focus:ring-2 ' + 
+                    (hasFieldError('password') ? 'border-red-500 bg-red-50 focus:ring-red-300' : 'border-gray-200 bg-amber-50 focus:ring-pink-300')" />
+                @if (hasFieldError('password')) {
+                <div class="text-sm text-red-600 mt-1">
+                    {{ getFieldError('password') }}
+                </div>
+                }
+            </div>
+
+            <div class="space-y-3">
+                <label class="block text-sm font-medium text-gray-700">Login as:</label>
+                <div class="space-y-2">
+                    <label class="flex items-center space-x-2">
+                        <input type="radio" name="userType" value="customer" formControlName="userType"
+                            class="w-4 h-4 text-pink-500 bg-gray-100 border-gray-300 focus:ring-pink-500" />
+                        <span class="text-sm text-gray-700">Customer</span>
+                    </label>
+                    <label class="flex items-center space-x-2">
+                        <input type="radio" name="userType" value="staff" formControlName="userType"
+                            class="w-4 h-4 text-pink-500 bg-gray-100 border-gray-300 focus:ring-pink-500" />
+                        <span class="text-sm text-gray-700">Staff</span>
+                    </label>
+                    <label class="flex items-center space-x-2">
+                        <input type="radio" name="userType" value="admin" formControlName="userType"
+                            class="w-4 h-4 text-pink-500 bg-gray-100 border-gray-300 focus:ring-pink-500" />
+                        <span class="text-sm text-gray-700">Admin</span>
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" [disabled]="isLoading()"
+                class="w-full rounded-[10px] bg-pink-500 text-white font-medium py-3 hover:bg-pink-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                @if (!isLoading()) {
+                <span>Sign In</span>
+                } @else {
+                <span class="flex items-center justify-center">
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
+                        fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                        </circle>
+                        <path class="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
+                    </svg>
+                    Signing In...
+                </span>
+                }
+            </button>
+
+            @if (errorMessage()) {
+            <div class="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                <p class="text-sm text-red-600">{{ errorMessage() }}</p>
+            </div>
+            }
+
+            <div class="text-center space-y-2">
+                <a href="/forgot-password" class="text-sm text-pink-600 hover:underline">Forgot your password?</a>
+                <p class="text-sm text-gray-500">
+                    Don't have an account?
+                    <a href="/register" class="text-pink-600 hover:underline">Sign up</a>
+                </p>
+
+                <!-- Toast Test Buttons -->
+                <div class="pt-4 border-t border-gray-200">
+                    <p class="text-xs text-gray-400 mb-2">Test Toast Notifications:</p>
+                    <div class="flex gap-2 flex-wrap justify-center">
+                        <button type="button" (click)="testSuccess()"
+                            class="px-2 py-1 text-xs bg-green-500 text-white rounded hover:bg-green-600">Success</button>
+                        <button type="button" (click)="testError()"
+                            class="px-2 py-1 text-xs bg-red-500 text-white rounded hover:bg-red-600">Error</button>
+                        <button type="button" (click)="testInfo()"
+                            class="px-2 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-600">Info</button>
+                        <button type="button" (click)="testWarning()"
+                            class="px-2 py-1 text-xs bg-yellow-500 text-white rounded hover:bg-yellow-600">Warning</button>
+                    </div>
+                    <div class="mt-2">
+                        <a href="/demo/notifications" class="text-xs text-gray-500 hover:underline">Full Demo →</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

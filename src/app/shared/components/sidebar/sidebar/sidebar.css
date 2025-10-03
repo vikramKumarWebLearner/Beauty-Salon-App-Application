@@ -1,0 +1,24 @@
+/* sidebar.component.css */
+/* * {
+    background-color: hsl(var(--sidebar-background));
+} */
+
+.bg-sidebar-background {
+    background-color: hsl(var(--sidebar-background));
+}
+
+
+/* Scrollbar for sidebar if content overflows */
+div::-webkit-scrollbar {
+    width: 6px;
+}
+
+div::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.5);
+    /* gray-400 */
+    border-radius: 3px;
+}
+
+div::-webkit-scrollbar-track {
+    background: transparent;
+}

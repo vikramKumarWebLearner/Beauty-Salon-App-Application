@@ -1,0 +1,14 @@
+/* Make navbar sticky on top with subtle backdrop */
+.sticky-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    backdrop-filter: saturate(180%) blur(6px);
+}
+
+/* Improve input on small screens */
+@media (max-width: 640px) {
+    .navbar-search {
+        display: none;
+    }
+}
