@@ -61,4 +61,12 @@ export class ConfigService {
             console.error(`[${this.appName}]`, message, ...optionalParams);
         }
     }
+
+    get tokenKeyName() {
+        return this.config.auth.tokenKey;
+    }
+
+    get roleKeyName() {
+        return this.config.auth.roleKey;
+    }
 }

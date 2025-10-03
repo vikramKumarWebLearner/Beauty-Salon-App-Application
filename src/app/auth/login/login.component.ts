@@ -111,11 +111,19 @@ export class LoginComponent {
         this.#authService.login({ email, password }).subscribe({
             next: (res) => {
                 this.isLoading.set(false);
-                this.#authService.saveToken(res.token);
-                this.#authService.saveUserRole(userType);
+
+                // Token and role are already saved by the auth service in the tap operator
+                // Get the role from storage to ensure we have the correct value
+                const storedRole = this.#authService.getUserRole();
+                const roleToUse = storedRole || userType; // Fallback to form value if API didn't provide role
+
+                // If API didn't provide a role, save the form value
+                if (!storedRole) {
+                    this.#authService.setUserRole(userType);
+                }
 
                 // Show success message
-                this.#notificationService.showLoginSuccess(userType);
+                this.#notificationService.showLoginSuccess(roleToUse);
 
                 // Modern switch with proper typing
                 const routes: Record<UserType, string[]> = {
@@ -126,12 +134,11 @@ export class LoginComponent {
 
                 // Navigate after a short delay to let user see the success message
                 setTimeout(() => {
-                    this.#router.navigate(routes[userType]);
+                    this.#router.navigate(routes[roleToUse as UserType]);
                 }, 1000);
             },
             error: (err) => {
                 this.isLoading.set(false);
-                console.error('Login error:', err);
                 const errorMessage = err.error?.message || err.message || 'Login failed. Please try again.';
                 this.errorMessage.set(errorMessage);
                 this.#notificationService.showError(errorMessage, 'Login Failed');
