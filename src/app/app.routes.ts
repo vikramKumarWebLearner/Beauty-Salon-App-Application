@@ -7,9 +7,10 @@ import { NotificationDemoComponent } from './shared/components/notification-demo
 import { NotificationTestComponent } from './public/notification-test.component';
 import { AuthGuard } from './core/auth/guards/auth.guard';
 import { RoleGuard } from './core/auth/guards/role.guard';
+import { Home } from './layouts/public-layout/home/home';
 
 export const routes: Routes = [
-    { path: '', pathMatch: 'full', redirectTo: 'login' },
+    { path: '', component: Home },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'logout', component: LogoutComponent },

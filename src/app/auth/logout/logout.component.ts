@@ -42,7 +42,7 @@ export class LogoutComponent implements OnInit {
 
         // Navigate to login page after a short delay
         setTimeout(() => {
-            this.router.navigate(['/login']);
+            this.router.navigate(['']);
         }, 1500);
     }
 }
