@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import { Header } from '../../../shared/components/public/header/header';
 import { Router, RouterOutlet } from '@angular/router';
 import { HeaderItem } from '../../../core/models/header-item.model';
+import { CommonModule } from '@angular/common';
+import { Footer } from '../../../shared/components/public/footer/footer';
 @Component({
   selector: 'app-home',
-  imports: [Header, RouterOutlet],
+  imports: [Header, RouterOutlet, CommonModule, Footer],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
@@ -20,8 +22,5 @@ export class Home {
     { path: '/blog', label: 'Blog' },
     { path: '/contact', label: 'Contact' },
   ]
-  // nav links
-  navLinks = [
-
-  ];
+  stars = Array(5); // for review stars
 }

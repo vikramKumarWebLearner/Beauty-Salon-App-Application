@@ -1,107 +1,118 @@
-/* Google Fonts - Must be first */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
-
-/* Tailwind CSS directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Beauty Salon Design System - Elegant & Modern */
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
 
 @layer base {
     :root {
-        /* Core palette - Beauty salon inspired */
-        --background: 350 20% 98%;
-        --foreground: 340 15% 15%;
+        --background: 32 25% 98%;
+        --foreground: 20 14% 17%;
 
         --card: 0 0% 100%;
-        --card-foreground: 340 15% 15%;
+        --card-foreground: 20 14% 17%;
 
         --popover: 0 0% 100%;
-        --popover-foreground: 340 15% 15%;
+        --popover-foreground: 20 14% 17%;
 
-        /* Rose gold primary */
-        --primary: 340 65% 65%;
+        --primary: 330 75% 65%;
         --primary-foreground: 0 0% 100%;
-        --primary-glow: 340 75% 75%;
 
-        /* Soft lavender secondary */
-        --secondary: 280 25% 92%;
-        --secondary-foreground: 340 15% 25%;
+        --secondary: 32 25% 95%;
+        --secondary-foreground: 20 14% 17%;
 
-        /* Muted cream tones */
-        --muted: 350 15% 95%;
-        --muted-foreground: 340 10% 45%;
+        --muted: 32 25% 95%;
+        --muted-foreground: 20 8% 45%;
 
-        /* Mint accent */
-        --accent: 160 30% 88%;
-        --accent-foreground: 340 15% 25%;
+        --accent: 330 75% 80%;
+        --accent-foreground: 20 14% 17%;
 
-        --destructive: 0 75% 60%;
+        --destructive: 0 84.2% 60.2%;
         --destructive-foreground: 0 0% 100%;
 
-        --border: 350 20% 90%;
-        --input: 350 20% 90%;
-        --ring: 340 65% 65%;
+        --border: 32 25% 90%;
+        --input: 32 25% 90%;
+        --ring: 330 75% 65%;
 
         --radius: 0.75rem;
 
+        /* Luxury Design Tokens */
+        --rose-gold: 330 75% 65%;
+        --rose-gold-light: 330 75% 80%;
+        --cream: 32 25% 95%;
+        --warm-white: 32 25% 98%;
+        --charcoal: 20 14% 17%;
+        --soft-gray: 20 8% 45%;
+
         /* Gradients */
-        --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-        --gradient-rose: linear-gradient(135deg, hsl(340 75% 75%), hsl(350 65% 85%));
-        --gradient-lavender: linear-gradient(135deg, hsl(280 30% 90%), hsl(290 25% 95%));
-        --gradient-mint: linear-gradient(135deg, hsl(160 35% 85%), hsl(170 30% 90%));
-        --gradient-hero: linear-gradient(135deg, hsl(340 65% 65%), hsl(280 50% 75%));
+        --gradient-luxury: linear-gradient(135deg, hsl(var(--rose-gold)) 0%, hsl(330 80% 60%) 100%);
+        --gradient-soft: linear-gradient(180deg, hsl(var(--warm-white)) 0%, hsl(var(--cream)) 100%);
+        --gradient-hero: linear-gradient(135deg, hsl(var(--rose-gold-light) / 0.1) 0%, hsl(330 80% 60% / 0.1) 100%);
 
         /* Shadows */
-        --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.15);
-        --shadow-soft: 0 4px 20px -4px hsl(340 30% 70% / 0.2);
-        --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.3);
-
-        /* Sidebar */
-        --sidebar-background: 350 25% 97%;
-        --sidebar-foreground: 340 15% 25%;
-        --sidebar-primary: 340 65% 65%;
-        --sidebar-primary-foreground: 0 0% 100%;
-        --sidebar-accent: 340 20% 93%;
-        --sidebar-accent-foreground: 340 15% 25%;
-        --sidebar-border: 350 20% 88%;
-        --sidebar-ring: 340 65% 65%;
+        --shadow-luxury: 0 20px 60px -10px hsl(var(--rose-gold) / 0.3);
+        --shadow-soft: 0 10px 30px -5px hsl(var(--charcoal) / 0.1);
+        --shadow-glow: 0 0 40px hsl(var(--rose-gold) / 0.4);
 
         /* Animations */
+        --transition-luxury: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        --transition-spring: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+        --sidebar-background: 0 0% 98%;
+
+        --sidebar-foreground: 240 5.3% 26.1%;
+
+        --sidebar-primary: 240 5.9% 10%;
+
+        --sidebar-primary-foreground: 0 0% 98%;
+
+        --sidebar-accent: 240 4.8% 95.9%;
+
+        --sidebar-accent-foreground: 240 5.9% 10%;
+
+        --sidebar-border: 220 13% 91%;
+
+        --sidebar-ring: 217.2 91.2% 59.8%;
     }
 
     .dark {
-        --background: 340 20% 8%;
-        --foreground: 350 20% 95%;
-        --card: 340 15% 12%;
-        --card-foreground: 350 20% 95%;
-        --popover: 340 15% 12%;
-        --popover-foreground: 350 20% 95%;
-        --primary: 340 75% 70%;
-        --primary-foreground: 340 20% 8%;
-        --primary-glow: 340 85% 80%;
-        --secondary: 340 10% 20%;
-        --secondary-foreground: 350 20% 90%;
-        --muted: 340 10% 15%;
-        --muted-foreground: 340 5% 65%;
-        --accent: 160 15% 25%;
-        --accent-foreground: 350 20% 90%;
-        --destructive: 0 75% 60%;
-        --destructive-foreground: 350 20% 95%;
-        --border: 340 10% 18%;
-        --input: 340 10% 18%;
-        --ring: 340 75% 70%;
-        --sidebar-background: 340 15% 10%;
-        --sidebar-foreground: 350 15% 85%;
-        --sidebar-primary: 340 75% 70%;
-        --sidebar-primary-foreground: 340 20% 8%;
-        --sidebar-accent: 340 10% 18%;
-        --sidebar-accent-foreground: 350 15% 85%;
-        --sidebar-border: 340 10% 15%;
-        --sidebar-ring: 340 75% 70%;
+        --background: 222.2 84% 4.9%;
+        --foreground: 210 40% 98%;
+
+        --card: 222.2 84% 4.9%;
+        --card-foreground: 210 40% 98%;
+
+        --popover: 222.2 84% 4.9%;
+        --popover-foreground: 210 40% 98%;
+
+        --primary: 210 40% 98%;
+        --primary-foreground: 222.2 47.4% 11.2%;
+
+        --secondary: 217.2 32.6% 17.5%;
+        --secondary-foreground: 210 40% 98%;
+
+        --muted: 217.2 32.6% 17.5%;
+        --muted-foreground: 215 20.2% 65.1%;
+
+        --accent: 217.2 32.6% 17.5%;
+        --accent-foreground: 210 40% 98%;
+
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 210 40% 98%;
+
+        --border: 217.2 32.6% 17.5%;
+        --input: 217.2 32.6% 17.5%;
+        --ring: 212.7 26.8% 83.9%;
+        --sidebar-background: 240 5.9% 10%;
+        --sidebar-foreground: 240 4.8% 95.9%;
+        --sidebar-primary: 224.3 76.3% 48%;
+        --sidebar-primary-foreground: 0 0% 100%;
+        --sidebar-accent: 240 3.7% 15.9%;
+        --sidebar-accent-foreground: 240 4.8% 95.9%;
+        --sidebar-border: 240 3.7% 15.9%;
+        --sidebar-ring: 217.2 91.2% 59.8%;
     }
 }
 
@@ -111,79 +122,6 @@
     }
 
     body {
-        @apply bg-background text-foreground font-sans antialiased;
-        font-family: 'Inter', sans-serif;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        font-family: 'Playfair Display', serif;
-    }
-}
-
-@layer components {
-
-    /* Beauty salon specific components */
-    .glass-card {
-        @apply bg-white/80 backdrop-blur-sm border border-white/20 shadow-lg;
-    }
-
-    .gradient-text {
-        @apply bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent;
-    }
-
-    .salon-button {
-        @apply relative overflow-hidden rounded-xl px-6 py-3 font-medium transition-all duration-300;
-        @apply bg-gradient-to-r from-primary to-primary-glow text-primary-foreground;
-        @apply shadow-elegant hover:shadow-glow hover:scale-105 active:scale-95;
-    }
-
-    .salon-card {
-        @apply glass-card rounded-2xl p-6 transition-all duration-300;
-        @apply hover:shadow-soft hover:-translate-y-1;
-    }
-
-    .feature-card {
-        @apply relative overflow-hidden rounded-2xl bg-gradient-to-br p-8;
-        @apply transition-all duration-500 hover:scale-105;
-    }
-
-    .feature-card-admin {
-        @apply from-primary/10 via-primary-glow/5 to-transparent;
-        @apply border border-primary/20 hover:border-primary/40;
-    }
-
-    .feature-card-customer {
-        @apply from-accent/20 via-accent/10 to-transparent;
-        @apply border border-accent/30 hover:border-accent/50;
-    }
-
-    .feature-card-staff {
-        @apply from-secondary/30 via-secondary/15 to-transparent;
-        @apply border border-secondary/40 hover:border-secondary/60;
-    }
-
-    .nav-link {
-        @apply relative flex items-center gap-3 rounded-xl px-4 py-3;
-        @apply text-sidebar-foreground transition-all duration-200;
-        @apply hover:bg-sidebar-accent hover:text-sidebar-accent-foreground;
-    }
-
-    .nav-link.active {
-        @apply bg-sidebar-primary text-sidebar-primary-foreground;
-        @apply shadow-md;
-    }
-
-    .hero-section {
-        @apply relative min-h-screen bg-gradient-to-br from-background via-primary/5 to-accent/10;
-        @apply flex items-center justify-center overflow-hidden;
-    }
-
-    .floating-element {
-        @apply absolute animate-pulse opacity-20;
+        @apply bg-background text-foreground;
     }
 }
