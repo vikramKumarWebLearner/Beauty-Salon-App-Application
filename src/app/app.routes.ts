@@ -8,13 +8,23 @@ import { NotificationTestComponent } from './public/notification-test.component'
 import { AuthGuard } from './core/auth/guards/auth.guard';
 import { RoleGuard } from './core/auth/guards/role.guard';
 import { Home } from './layouts/public-layout/home/home';
+// import { Dashboard } from './layouts/admin-layout/dashboard';
 
 export const routes: Routes = [
     { path: '', component: Home },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'logout', component: LogoutComponent },
-    { path: 'admin/dashboard', component: AdminDashboard, canActivate: [AuthGuard, RoleGuard], data: { roles: ['admin'] } },
+    {
+        path: 'admin/dashboard', component: AdminDashboard, canActivate: [AuthGuard, RoleGuard], data: { roles: ['admin'] }
+        , children: [
+            {
+                path: '',
+                loadComponent: () =>
+                    import('./layouts/admin-layout/dashboard/dashboard').then(m => m.Dashboard),
+            },
+        ]
+    },
     { path: 'demo/notifications', component: NotificationDemoComponent },
     { path: 'test/notifications', component: NotificationTestComponent },
     // { path: 'admin/appointments', component: AppointmentsComponent },
