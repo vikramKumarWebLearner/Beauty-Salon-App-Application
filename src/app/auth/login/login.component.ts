@@ -11,7 +11,7 @@ type UserType = 'customer' | 'staff' | 'admin';
 interface LoginForm {
     email: FormControl<string>;
     password: FormControl<string>;
-    userType: FormControl<UserType>;
+    // userType: FormControl<UserType>;
 }
 
 @Component({
@@ -40,10 +40,10 @@ export class LoginComponent {
             validators: [Validators.required, Validators.minLength(6)],
             nonNullable: true
         }),
-        userType: new FormControl<UserType>('customer', {
-            validators: [Validators.required],
-            nonNullable: true
-        })
+        // userType: new FormControl<UserType>('customer', {
+        //     validators: [Validators.required],
+        //     nonNullable: true
+        // })
     });
 
     // Computed signals for form validation state
@@ -106,7 +106,7 @@ export class LoginComponent {
         this.errorMessage.set('');
 
         // Get form values with proper typing
-        const { email, password, userType } = this.loginForm.getRawValue();
+        const { email, password } = this.loginForm.getRawValue();
 
         this.#authService.login({ email, password }).subscribe({
             next: (res) => {
@@ -115,11 +115,11 @@ export class LoginComponent {
                 // Token and role are already saved by the auth service in the tap operator
                 // Get the role from storage to ensure we have the correct value
                 const storedRole = this.#authService.getUserRole();
-                const roleToUse = storedRole || userType; // Fallback to form value if API didn't provide role
+                const roleToUse = storedRole || 'customer'; // Fallback to form value if API didn't provide role
 
                 // If API didn't provide a role, save the form value
                 if (!storedRole) {
-                    this.#authService.setUserRole(userType);
+                    this.#authService.setUserRole(roleToUse);
                 }
 
                 // Show success message
