@@ -1,5 +1,32 @@
 <div class="space-y-8 p-6">
+    <!-- Loading State -->
+    @if (loading()) {
+    <div class="flex items-center justify-center py-12">
+        <div class="text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-gold mx-auto mb-4"></div>
+            <p class="text-gray-600">Loading dashboard data...</p>
+        </div>
+    </div>
+    }
+
+    <!-- Error State -->
+    @if (!loading() && stats.length === 0) {
+    <div class="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+        <div class="text-red-600 mb-2">
+            <i class="lucide lucide-alert-circle w-8 h-8 mx-auto mb-2"></i>
+            <h3 class="text-lg font-semibold">Unable to load dashboard data</h3>
+        </div>
+        <p class="text-red-700 mb-4">There was an issue connecting to the server. Please check your connection and try
+            again.</p>
+        <button (click)="loadDashboardData()"
+            class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">
+            Retry
+        </button>
+    </div>
+    }
+
     <!-- Stats Grid -->
+    @if (!loading() && stats.length > 0) {
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         @for(stat of stats; track stat){
         <div class="p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
@@ -7,9 +34,15 @@
                 <div>
                     <p class="text-sm text-muted-foreground mb-1">{{ stat.title }}</p>
                     <p class="text-2xl font-bold text-foreground">{{ stat.value }}</p>
-                    <div class="flex items-center gap-1 mt-1 text-green-600">
-                        <i class="lucide lucide-trending-up w-4 h-4"></i>
-                        <span class="text-sm text-green-600">{{ stat.change }}</span>
+
+                    <div class="flex items-center gap-1 mt-1"
+                        [ngClass]="stat.trend === 'up' ? 'text-green-600' : 'text-red-600'">
+                        <!-- <i [class]="stat.trend === 'up' ? 'trending-up w-4 h-4' : 'trending-down w-4 h-4'"></i> -->
+                        <lucide-icon [name]="stat.trend === 'up' ? 'trending-up' : 'trending-down'" [size]="20"
+                            [ngClass]="stat.trend === 'up' ? 'text-green-600 w-4 h-4 m-1' : 'text-red-600 w-4 h-4 m-1'">
+                        </lucide-icon>
+                        <span class="text-sm" [ngClass]="stat.trend === 'up' ? 'text-green-600' : 'text-red-600'">{{
+                            stat.change }}</span>
                     </div>
                 </div>
                 <div class="p-3 rounded-xl bg-primary/10">
@@ -20,8 +53,10 @@
         </div>
         }
     </div>
+    }
 
     <!-- Main Content Grid -->
+    @if (!loading()) {
     <div class="grid lg:grid-cols-3 gap-8">
         <!-- Recent Appointments -->
         <div class="lg:col-span-2 p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
@@ -31,11 +66,13 @@
                     class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">View
                     All</button>
             </div>
+
+            @if (recentAppointments.length > 0) {
             @for (appointment of recentAppointments; track $index) {
-            <div class="flex items-center justify-between p-4 rounded-xl bg-muted/30">
+            <div class="flex items-center justify-between p-4 rounded-xl bg-muted/30 mb-3">
                 <div class="flex-1">
                     <div class="flex items-center gap-3 mb-2">
-                        <h4 class="font-medium text-foreground">{{ appointment.customer }}</h4>
+                        <h4 class="font-medium text-foreground">{{ appointment.name }}</h4>
                         <span class="px-2 py-1 rounded-full text-xs font-medium"
                             [ngClass]="getStatusColor(appointment.status)">
                             {{ appointment.status }}
@@ -49,6 +86,12 @@
                 </div>
             </div>
             }
+            } @else {
+            <div class="text-center py-8 text-gray-500">
+                <i class="lucide lucide-calendar-x w-12 h-12 mx-auto mb-3 text-gray-300"></i>
+                <p>No recent appointments found</p>
+            </div>
+            }
         </div>
 
         <!-- Quick Actions + Today's Overview -->
@@ -57,16 +100,22 @@
                 <h3 class="text-lg font-serif font-semibold mb-6">Quick Actions</h3>
                 <div class="space-y-3">
                     <button
-                        class="w-full flex items-center justify-start bg-rose-gold text-white px-4 py-3 rounded-lg text-lg font-medium">
-                        <i class="lucide lucide-calendar w-5 h-5 mr-3"></i> New Appointment
+                        class="inline-flex items-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-11 rounded-md px-8 w-full salon-button justify-start">
+                        <!-- <i class="lucide lucide-calendar w-5 h-5 mr-3"></i> -->
+                        <lucide-icon class="w-6 h-6" name="calendar"></lucide-icon>
+                        New Appointment
                     </button>
                     <button
-                        class="w-full flex items-center justify-start border border-gray-300 px-4 py-3 rounded-lg text-lg font-medium hover:bg-gray-50">
-                        <i class="lucide lucide-users w-5 h-5 mr-3"></i> Add Staff Member
+                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 rounded-md px-8 w-full">
+                        <!-- <i class="lucide lucide-users w-5 h-5 mr-3"></i> -->
+                        <lucide-icon class="w-6 h-6" name="users"></lucide-icon>
+                        Add Staff Member
                     </button>
                     <button
-                        class="w-full flex items-center justify-start border border-gray-300 px-4 py-3 rounded-lg text-lg font-medium hover:bg-gray-50">
-                        <i class="lucide lucide-bar-chart-3 w-5 h-5 mr-3"></i> View Analytics
+                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 rounded-md px-8 w-full">
+                        <i class="lucide lucide-bar-chart-3 w-5 h-5 mr-3"></i>
+                        <lucide-icon class="w-6 h-6" name="chart-column"></lucide-icon>
+                        View Analytics
                     </button>
                 </div>
             </div>
@@ -76,15 +125,16 @@
                 <div class="space-y-4">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-3">
-                            <i class="lucide lucide-activity w-5 h-5 text-rose-gold"></i>
+                            <!-- <i class="lucide lucide-activity w-5 h-5 text-rose-gold"></i> -->
+                            <lucide-icon class="w-5 h-5 text-rose-gold" name="activity"></lucide-icon>
                             <span class="text-sm text-gray-700">Appointments</span>
                         </div>
-                        <span class="font-semibold text-gray-900">18</span>
+                        <span class="font-semibold text-gray-900">{{ totalAppointments }}</span>
                     </div>
 
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-3">
-                            <i class="lucide lucide-clock w-5 h-5 text-rose-gold"></i>
+                            <lucide-icon class=" w-5 h-5 text-rose-gold" name="clock"></lucide-icon>
                             <span class="text-sm text-gray-700">Hours Booked</span>
                         </div>
                         <span class="font-semibold text-gray-900">7.5</span>
@@ -92,13 +142,15 @@
 
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-3">
-                            <i class="lucide lucide-dollar-sign w-5 h-5 text-rose-gold"></i>
+                            <!-- <i class="lucide lucide-dollar-sign w-5 h-5 text-rose-gold"></i> -->
+                            <lucide-icon class="w-5 h-5 text-rose-gold" name="indian-rupee"></lucide-icon>
                             <span class="text-sm text-gray-700">Revenue</span>
                         </div>
-                        <span class="font-semibold text-gray-900">$1,240</span>
+                        <span class="font-semibold text-gray-900">₹{{totalRenview}}</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    }
 </div>

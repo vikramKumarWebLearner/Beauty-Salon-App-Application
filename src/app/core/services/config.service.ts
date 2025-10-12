@@ -8,8 +8,8 @@ export class ConfigService {
     private config = environment;
 
     constructor() {
-        console.log('App running in', this.config.production ? 'production' : 'development', 'mode');
-        console.log('API URL:', this.config.apiUrl);
+        // console.log('App running in', this.config.production ? 'production' : 'development', 'mode');
+        // console.log('API URL:', this.config.apiUrl);
     }
 
     get apiUrl(): string {

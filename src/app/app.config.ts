@@ -5,14 +5,18 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
 import {
-  LucideAngularModule, TrendingUp,
+  LucideAngularModule,
   Users,
   Calendar,
   DollarSign,
   Clock,
   Star,
   BarChart3,
-  Activity
+  Activity,
+  ChartColumn,
+  IndianRupee,
+  TrendingDown,
+  TrendingUp
 } from 'lucide-angular';
 
 export const appConfig: ApplicationConfig = {
@@ -32,7 +36,10 @@ export const appConfig: ApplicationConfig = {
         Clock,
         Star,
         BarChart3,
-        Activity
+        Activity,
+        ChartColumn,
+        IndianRupee,
+        TrendingDown
       })
     )
   ]
