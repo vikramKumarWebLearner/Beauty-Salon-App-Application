@@ -8,31 +8,52 @@ import { NotificationTestComponent } from './public/notification-test.component'
 import { AuthGuard } from './core/auth/guards/auth.guard';
 import { RoleGuard } from './core/auth/guards/role.guard';
 import { Home } from './layouts/public-layout/home/home';
-// import { Dashboard } from './layouts/admin-layout/dashboard';
 
 export const routes: Routes = [
+    // 🌐 Public Routes
     { path: '', component: Home },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'logout', component: LogoutComponent },
+
+    // 🔒 Admin Routes (Protected by Auth + Role Guards)
     {
-        path: 'admin/dashboard', component: AdminDashboard, canActivate: [AuthGuard, RoleGuard], data: { roles: ['admin'] }
-        , children: [
+        path: 'admin',
+        canActivate: [AuthGuard, RoleGuard],
+        data: { roles: ['admin'] },
+        children: [
             {
                 path: '',
-                loadComponent: () =>
-                    import('./layouts/admin-layout/dashboard/dashboard').then(m => m.Dashboard),
+                component: AdminDashboard,
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('./layouts/admin-layout/dashboard/dashboard').then(
+                                (m) => m.Dashboard
+                            ),
+                    },
+                    {
+                        path: 'appointments',
+                        loadComponent: () =>
+                            import('./layouts/admin-layout/appointments/appointments').then(
+                                (m) => m.Appointments
+                            ),
+                    },
+                    // Add more admin child routes here if needed:
+                    // {
+                    //   path: 'staff',
+                    //   loadComponent: () => import('./layouts/admin-layout/staff/staff').then(m => m.Staff),
+                    // },
+                ],
             },
-        ]
+        ],
     },
+
+    // 🧪 Demo & Testing Routes
     { path: 'demo/notifications', component: NotificationDemoComponent },
     { path: 'test/notifications', component: NotificationTestComponent },
-    // { path: 'admin/appointments', component: AppointmentsComponent },
-    // { path: 'admin/staff-management', component: StaffManagementComponent },
-    // { path: 'admin/services', component: ServicesComponent },
-    // { path: 'admin/analytics', component: AnalyticsComponent },
-    // { path: 'admin/inventory', component: InventoryComponent },
-    // { path: 'admin/payments', component: PaymentsComponent },
-    // { path: 'admin/settings', component: SettingsComponent },
-    { path: '**', redirectTo: 'login' }
+
+    // 🚨 Fallback Route
+    { path: '**', redirectTo: 'login' },
 ];

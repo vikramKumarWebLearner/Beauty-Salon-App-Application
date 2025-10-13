@@ -19,7 +19,7 @@ export class RoleGuard implements CanActivate {
     ): boolean {
         // First check if user is authenticated
         if (!this.authService.isAuthenticated()) {
-            this.router.navigate(['/auth/login']);
+            this.router.navigate(['/login']);
             return false;
         }
 
