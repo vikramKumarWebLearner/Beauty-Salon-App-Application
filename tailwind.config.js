@@ -20,6 +20,8 @@ module.exports = {
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
+        // Added to support utilities like `to-primary-glow`
+        'primary-glow': 'hsl(var(--primary-glow))',
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
