@@ -7,71 +7,72 @@ import { NotificationService, ToastMessage } from '../../core/services/notificat
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="fixed top-4 right-4 z-[9999] space-y-2 pointer-events-none">
-      @for (message of messages(); track message.id) {
-        <div 
-          class="max-w-sm w-full bg-white shadow-xl rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden transform transition-all duration-300 ease-in-out border-l-4 animate-slide-in-right"
-          [ngClass]="getToastClasses(message.type)"
-          role="alert"
-          [attr.data-toast-id]="message.id">
-          <div class="p-4">
-            <div class="flex items-start">
-              <div class="flex-shrink-0">
-                <div class="w-5 h-5 flex items-center justify-center">
-                  @switch (message.type) {
-                    @case ('success') {
-                      <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                      </svg>
-                    }
-                    @case ('error') {
-                      <svg class="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                      </svg>
-                    }
-                    @case ('warning') {
-                      <svg class="w-5 h-5 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                      </svg>
-                    }
-                    @case ('info') {
-                      <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
-                      </svg>
-                    }
-                  }
-                </div>
-              </div>
-              <div class="ml-3 w-0 flex-1 pt-0.5">
-                <p class="text-sm font-semibold text-gray-900">{{ message.title }}</p>
-                <p class="mt-1 text-sm text-gray-600">{{ message.message }}</p>
-              </div>
-              <div class="ml-4 flex-shrink-0 flex">
-                <button 
-                  (click)="removeMessage(message.id)"
-                  class="rounded-md inline-flex text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors">
-                  <span class="sr-only">Close</span>
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+      <div class="fixed top-4 right-4 z-[9999] space-y-3 pointer-events-none">
+        @for (message of messages(); track message.id) {
+          <div
+            class="flex items-center gap-3 px-4 py-3 rounded-lg shadow-md border-l-4 transition-all duration-300 ease-in-out bg-green-50 animate-slide-in-right"
+            [ngClass]="{
+              'border-green-500 bg-green-50 text-green-700': message.type === 'success',
+              'border-red-500 bg-red-50 text-red-700': message.type === 'error',
+              'border-yellow-500 bg-yellow-50 text-yellow-700': message.type === 'warning',
+              'border-blue-500 bg-blue-50 text-blue-700': message.type === 'info'
+            }"
+            role="alert"
+            [attr.data-toast-id]="message.id"
+          >
+            <!-- Icon -->
+            <div class="flex-shrink-0">
+              @switch (message.type) {
+                @case ('success') {
+                  <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clip-rule="evenodd" />
                   </svg>
-                </button>
-              </div>
+                }
+                @case ('error') {
+                  <svg class="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clip-rule="evenodd" />
+                  </svg>
+                }
+                @case ('warning') {
+                  <svg class="w-5 h-5 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                      d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                      clip-rule="evenodd" />
+                  </svg>
+                }
+                @case ('info') {
+                  <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                      clip-rule="evenodd" />
+                  </svg>
+                }
+              }
             </div>
+
+            <!-- Text -->
+            <div class="flex-1">
+              <p class="text-sm font-medium">{{ message.message }}</p>
+            </div>
+
+            <!-- Close Button -->
+            <button
+              (click)="removeMessage(message.id)"
+              class="p-1 rounded-md hover:bg-white/30 focus:outline-none transition"
+            >
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clip-rule="evenodd" />
+              </svg>
+            </button>
           </div>
-          <!-- Progress bar -->
-          @if (message.duration && message.duration > 0) {
-            <div class="h-1 bg-gray-200">
-              <div 
-                class="h-full transition-all ease-linear"
-                [ngClass]="getProgressBarColor(message.type)"
-                [style.width.%]="getProgressWidth(message)"
-                [style.transition-duration.ms]="message.duration">
-              </div>
-            </div>
-          }
-        </div>
-      }
-    </div>
+        }
+      </div>
   `
 })
 export class ToastComponent {

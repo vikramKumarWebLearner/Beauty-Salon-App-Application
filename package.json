@@ -28,11 +28,13 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^20.3.2",
+    "@angular/animations": "^20.3.9",
+    "@angular/cdk": "^20.2.11",
     "@angular/common": "^20.2.0",
     "@angular/compiler": "^20.2.0",
     "@angular/core": "^20.3.2",
     "@angular/forms": "^20.2.0",
+    "@angular/material": "^20.2.11",
     "@angular/platform-browser": "^20.3.2",
     "@angular/router": "^20.2.0",
     "lucide": "^0.544.0",
@@ -40,7 +42,8 @@
     "ngx-toastr": "^19.0.0",
     "rxjs": "~7.8.0",
     "tailwindcss-animate": "^1.0.7",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@angular/build": "^20.2.2",

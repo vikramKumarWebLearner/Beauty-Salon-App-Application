@@ -3,12 +3,10 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { LogoutComponent } from './auth/logout/logout.component';
 import { AdminDashboard } from './layouts/admin-layout/admin-dashboard/admin-dashboard';
-import { NotificationDemoComponent } from './shared/components/notification-demo.component';
-import { NotificationTestComponent } from './public/notification-test.component';
 import { AuthGuard } from './core/auth/guards/auth.guard';
 import { RoleGuard } from './core/auth/guards/role.guard';
 import { Home } from './layouts/public-layout/home/home';
-
+import { ToastComponent } from './public/toast.component';
 export const routes: Routes = [
     // 🌐 Public Routes
     { path: '', component: Home },
@@ -27,7 +25,7 @@ export const routes: Routes = [
                 component: AdminDashboard,
                 children: [
                     {
-                        path: '',
+                        path: 'dashboard',
                         loadComponent: () =>
                             import('./layouts/admin-layout/dashboard/dashboard').then(
                                 (m) => m.Dashboard
@@ -51,9 +49,9 @@ export const routes: Routes = [
     },
 
     // 🧪 Demo & Testing Routes
-    { path: 'demo/notifications', component: NotificationDemoComponent },
-    { path: 'test/notifications', component: NotificationTestComponent },
-
+    // { path: 'demo/notifications', component: NotificationDemoComponent },
+    // { path: 'test/notifications', component: NotificationTestComponent },
+    { path: 'toastMessage', component: ToastComponent },
     // 🚨 Fallback Route
     { path: '**', redirectTo: 'login' },
 ];
