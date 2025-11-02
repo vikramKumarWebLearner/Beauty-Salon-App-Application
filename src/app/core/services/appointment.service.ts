@@ -167,8 +167,8 @@ export class AppointmentService {
         });
     }
 
-    updateAppointment(id: string, data: any) {
-        return this.http.put(`/api/bookings/${id}`, data, {
+    updateAppointment(id: string, data: any): Observable<ApiResponse> {
+        return this.http.put<ApiResponse>(`${this.apiUrl}/bookings/${id}`, data, {
             headers: this.headers,
         });
     }

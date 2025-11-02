@@ -108,7 +108,7 @@ import { MatIconModule } from '@angular/material/icon';
                   <mat-timepicker-toggle matIconSuffix [for]="picker" class="!absolute right-2 top-2 text-gray-500 hover:text-gray-700 flex self-center" style="align-self: anchor-center;"></mat-timepicker-toggle>
                   <mat-timepicker #picker></mat-timepicker>
               </div>
-            }
+              }
 
               @case ('radio') {
                 <div class="space-y-2">

@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import {
   DataTableComponent,
   TableConfig,
@@ -13,6 +14,7 @@ import {
 import { AppointmentService } from '../../../core/services/appointment.service';
 // import { NotificationService } from '../../../public/notification.service';
 import { NotificationService } from '../../../../app/public/notification.service';
+import { TimeFormatPipe } from '../../../shared/pipes/timeFormat.pipe';
 @Component({
   selector: 'app-appointments',
   standalone: true,
@@ -28,7 +30,10 @@ export class Appointments implements OnInit {
   loading = signal(true);
   isModalOpen = signal(false);
   appointments = signal<any[]>([]);
+  originalAppointments = signal<any[]>([]); // Store original data with IDs
   searchTerm = signal('');
+  editingAppointmentId = signal<string | null>(null);
+  appointmentForm!: FormGroup;
 
   // ✅ Computed signal for search filter
   filteredAppointments = computed(() => {
@@ -45,6 +50,8 @@ export class Appointments implements OnInit {
   });
 
   ngOnInit() {
+    // Initialize form
+    this.appointmentForm = this.formBuilderService.buildForm(this.formConfig);
     this.loadAppointments();
     this.loadStaffOptions();
     this.loadServiceOptions();
@@ -57,6 +64,9 @@ export class Appointments implements OnInit {
     this.appointmentService.getAppointments().subscribe({
       next: (res) => {
         if (res && res.success) {
+          // Store original data with full information
+          this.originalAppointments.set(res.data || []);
+
           this.appointments.set(
             res.data.map((item: any) => ({
               id: item._id,
@@ -155,7 +165,8 @@ export class Appointments implements OnInit {
     columns: [
       { key: 'customerName', label: 'Customer', sortable: true },
       { key: 'service', label: 'Service', sortable: true },
-      { key: 'appointmentDate', label: 'Date & Time', type: 'date', sortable: true },
+      { key: 'appointmentDate', label: 'Date', type: 'date', sortable: true },
+      { key: 'appointmentTime', label: 'Time', type: 'time', sortable: true },
       { key: 'staff', label: 'Staff', sortable: true },
       { key: 'status', label: 'Status', type: 'status', sortable: true }
     ],
@@ -170,7 +181,7 @@ export class Appointments implements OnInit {
     pageSize: 10
   };
 
-  // ✅ Modal configuration
+  // ✅ Modal configuration (will be updated dynamically)
   modalConfig: ModalConfig = {
     title: 'New Appointment',
     size: 'xl',
@@ -192,7 +203,7 @@ export class Appointments implements OnInit {
         ]
       },
       {
-        name: 'serviceId', label: 'Service', type: 'select', required: true, options: [
+        name: 'serviceId', label: 'Service', type: 'select', required: true, placeholder: 'Select Service', options: [
           { value: 'Hair Styling', label: 'Hair Styling' },
           { value: 'Haircut', label: 'Haircut' },
           { value: 'Hair Coloring', label: 'Hair Coloring' },
@@ -232,19 +243,75 @@ export class Appointments implements OnInit {
 
   // ✅ Modal Controls
   openModal(): void {
+    this.editingAppointmentId.set(null);
+    this.modalConfig.title = 'New Appointment';
+    this.formConfig.submitText = 'Create Appointment';
+    this.appointmentForm.reset();
+    // Reset to default values
+    this.formConfig.fields.forEach(field => {
+      if (field.defaultValue !== undefined) {
+        this.appointmentForm.get(field.name)?.setValue(field.defaultValue);
+      }
+    });
+    this.isModalOpen.set(true);
+  }
+
+  openEditModal(appointment: any): void {
+    // Find original appointment data
+    const originalAppointment = this.originalAppointments().find(
+      (item: any) => item._id === appointment.id
+    );
+
+    if (!originalAppointment) {
+      this.toast.show('Appointment data not found', 'error');
+      return;
+    }
+
+    this.editingAppointmentId.set(appointment.id);
+    this.modalConfig.title = 'Edit Appointment';
+    this.formConfig.submitText = 'Update Appointment';
+
+    // Convert date string to Date object for Material datepicker
+    const dateValue = originalAppointment.date || originalAppointment.appointmentDate || '';
+    const dateObj = dateValue ? new Date(dateValue) : null;
+    console.log(originalAppointment.time);
+
+    // Map appointment data to form values
+    const formValues: any = {
+      id: originalAppointment._id,
+      userId: originalAppointment.userId?._id || originalAppointment.userId || '',
+      serviceId: originalAppointment.serviceId?._id || originalAppointment.serviceId || '',
+      staffId: originalAppointment.staffId?._id || originalAppointment.staffId || '',
+      date: dateObj,
+      time: originalAppointment.time || originalAppointment.appointmentTime || '',
+      status: originalAppointment.status || 'pending',
+      notes: originalAppointment.notes || ''
+    };
+
+    // Patch form values
+    this.appointmentForm.patchValue(formValues);
     this.isModalOpen.set(true);
   }
 
   closeModal(): void {
     this.isModalOpen.set(false);
+    this.editingAppointmentId.set(null);
+    this.appointmentForm.reset();
   }
 
   onFormSubmit(formData: any): void {
-    const isEdit = !!formData.id;
+    // Get the form value (includes id if editing)
+    const formValue = this.appointmentForm.value;
+    const appointmentId = this.editingAppointmentId();
+    const isEdit = !!appointmentId;
 
+    // Prepare data for submission (exclude id from payload)
+    const { id, ...submitData } = formValue;
+
+    // Use the appointment ID from signal if editing
     const request = isEdit
-      ? this.appointmentService.updateAppointment(formData.id, formData)
-      : this.appointmentService.createService(formData);
+      ? this.appointmentService.updateAppointment(appointmentId!, submitData)
+      : this.appointmentService.createService(submitData);
 
     request.subscribe({
       next: (res: any) => {
@@ -263,7 +330,7 @@ export class Appointments implements OnInit {
         console.error('Error saving appointment:', err);
 
         // ✅ Handle Express Validator (array of errors)
-        if (Array.isArray(err.error.errors)) {
+        if (Array.isArray(err.error?.errors)) {
           err.error.errors.forEach((validationErr: any) => {
             this.toast.show(validationErr.msg, 'error');
           });
@@ -293,12 +360,14 @@ export class Appointments implements OnInit {
     switch (event.action) {
       case 'view':
         console.log('View appointment:', event.row);
+        // TODO: Implement view functionality
         break;
       case 'edit':
-        console.log('Edit appointment:', event.row);
+        this.openEditModal(event.row);
         break;
       case 'delete':
         console.log('Delete appointment:', event.row);
+        // TODO: Implement delete functionality with confirmation
         break;
     }
   }

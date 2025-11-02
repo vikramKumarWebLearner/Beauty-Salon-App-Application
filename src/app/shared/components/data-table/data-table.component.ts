@@ -2,10 +2,11 @@ import { Component, Input, Output, EventEmitter, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DateTimeFormatPipe } from '../../pipes/date-time-format.pipe'
+import { TimeFormatPipe } from '../../pipes/timeFormat.pipe';
 export interface TableColumn {
   key: string;
   label: string;
-  type?: 'text' | 'date' | 'status' | 'actions' | 'custom';
+  type?: 'text' | 'date' | 'time' | 'status' | 'actions' | 'custom';
   sortable?: boolean;
   width?: string;
   customTemplate?: string;
@@ -31,11 +32,20 @@ export interface TableConfig {
 @Component({
   selector: 'app-data-table',
   standalone: true,
-  imports: [CommonModule, FormsModule, DateTimeFormatPipe],
+  imports: [CommonModule, FormsModule, DateTimeFormatPipe, TimeFormatPipe],
   template: `
     <div class="space-y-4 mt-5">
       <!-- Table -->
-      <div class="rounded-lg border bg-card">
+      <div class="rounded-lg border bg-card relative">
+        <!-- Loading Overlay -->
+        @if (loading) {
+          <div class="absolute inset-0 bg-white bg-opacity-90 z-10 flex items-center justify-center rounded-lg">
+            <div class="text-center">
+              <div class="animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-primary mx-auto mb-4"></div>
+              <p class="text-gray-600 font-medium">Loading data...</p>
+            </div>
+          </div>
+        }
         <div class="relative w-full overflow-auto">
           <table class="w-full caption-bottom text-sm">
             <thead class="[&_tr]:border-b">
@@ -87,6 +97,9 @@ export interface TableConfig {
                         @case ('date') {
                           {{ row[column.key] | dateTimeFormat }}
                         }
+                        @case ('time') {
+                          {{ row[column.key] | timeFormat }}
+                        }
                         @case ('custom') {
                           <ng-container [ngTemplateOutlet]="getCustomTemplate(column.customTemplate!)" 
                                         [ngTemplateOutletContext]="{ $implicit: row, column: column }">
@@ -131,6 +144,20 @@ export interface TableConfig {
                     </td>
                   }
                 </tr>
+              } @empty {
+                <tr>
+                  <td [attr.colspan]="config.columns.length + (config.actions && config.actions.length > 0 ? 1 : 0)" 
+                      class="p-12 text-center">
+                    <div class="flex flex-col items-center justify-center text-muted-foreground">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4 opacity-50">
+                        <path d="M3 3h18v18H3z"></path>
+                        <path d="M9 9h6v6H9z"></path>
+                      </svg>
+                      <p class="text-lg font-medium">No data found</p>
+                      <p class="text-sm mt-1">There are no records to display.</p>
+                    </div>
+                  </td>
+                </tr>
               }
             </tbody>
           </table>
@@ -138,7 +165,7 @@ export interface TableConfig {
       </div>
 
       <!-- Pagination -->
-      @if (config.pagination && totalPages() >= 1) {
+      @if (config.pagination && totalPages() >= 1 && totalItems() > 0) {
   <div class="flex items-center justify-between mt-4">
     <div class="text-sm text-gray-500">
       Showing {{ (currentPage() - 1) * config.pageSize! + 1 }}
@@ -175,6 +202,7 @@ export class DataTableComponent {
   @Input() config!: TableConfig;
   @Input() searchPlaceholder: string = 'items';
   @Input() rowIdField: string = 'id';
+  @Input() loading: boolean = false;
 
   @Output() actionClick = new EventEmitter<{ action: string, row: any }>();
 
