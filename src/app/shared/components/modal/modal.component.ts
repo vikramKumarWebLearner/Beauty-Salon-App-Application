@@ -24,7 +24,7 @@ export interface ModalConfig {
              [ngClass]="getModalSizeClass()">
           
           <!-- Modal Header -->
-          <div class="flex items-center justify-between p-6 border-b">
+          <div class="flex items-center justify-between pt-6 pl-6 pr-6">
             <h2 class="text-lg font-semibold leading-none tracking-tight">{{ config.title }}</h2>
             @if (config.closable !== false) {
               <button (click)="close()" 

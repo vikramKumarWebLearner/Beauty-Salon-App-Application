@@ -8,6 +8,7 @@ import {
   ModalComponent,
   ModalConfig,
   DynamicFormComponent,
+  AppointmentViewComponent,
   FormBuilderService,
   FormConfig
 } from '../../../shared';
@@ -18,7 +19,7 @@ import { TimeFormatPipe } from '../../../shared/pipes/timeFormat.pipe';
 @Component({
   selector: 'app-appointments',
   standalone: true,
-  imports: [CommonModule, FormsModule, DataTableComponent, ModalComponent, DynamicFormComponent],
+  imports: [CommonModule, FormsModule, DataTableComponent, ModalComponent, DynamicFormComponent, AppointmentViewComponent],
   templateUrl: './appointments.html',
   styleUrl: './appointments.css'
 })
@@ -29,10 +30,12 @@ export class Appointments implements OnInit {
   // Signals
   loading = signal(true);
   isModalOpen = signal(false);
+  isViewModalOpen = signal(false);
   appointments = signal<any[]>([]);
   originalAppointments = signal<any[]>([]); // Store original data with IDs
   searchTerm = signal('');
   editingAppointmentId = signal<string | null>(null);
+  selectedAppointment = signal<any>(null);
   appointmentForm!: FormGroup;
 
   // ✅ Computed signal for search filter
@@ -187,6 +190,14 @@ export class Appointments implements OnInit {
     size: 'xl',
     submitText: 'Create Appointment',
     cancelText: 'Cancel'
+  };
+
+  // ✅ View Modal configuration
+  viewModalConfig: ModalConfig = {
+    title: 'Appointment Details',
+    size: 'lg',
+    closable: true,
+    backdropClose: true
   };
 
   // ✅ Dynamic Form configuration
@@ -359,8 +370,7 @@ export class Appointments implements OnInit {
   onTableAction(event: { action: string, row: any }): void {
     switch (event.action) {
       case 'view':
-        console.log('View appointment:', event.row);
-        // TODO: Implement view functionality
+        this.openViewModal(event.row);
         break;
       case 'edit':
         this.openEditModal(event.row);
@@ -370,5 +380,32 @@ export class Appointments implements OnInit {
         // TODO: Implement delete functionality with confirmation
         break;
     }
+  }
+
+  openViewModal(appointment: any): void {
+    // Find original appointment data for complete details
+    const originalAppointment = this.originalAppointments().find(
+      (item: any) => item._id === appointment.id
+    );
+    // Prepare appointment data with all fields
+    const appointmentData = {
+      customerName: appointment.customerName,
+      service: appointment.service,
+      appointmentDate: appointment.appointmentDate,
+      appointmentTime: appointment.appointmentTime,
+      staff: appointment.staff,
+      status: appointment.status,
+      phone: originalAppointment.userId?.phone || appointment.phone || '',
+      email: originalAppointment.userId?.email || appointment.email || '',
+      notes: originalAppointment?.notes || ''
+    };
+
+    this.selectedAppointment.set(appointmentData);
+    this.isViewModalOpen.set(true);
+  }
+
+  closeViewModal(): void {
+    this.isViewModalOpen.set(false);
+    this.selectedAppointment.set(null);
   }
 }

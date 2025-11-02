@@ -16,7 +16,13 @@ import {
   ChartColumn,
   IndianRupee,
   TrendingDown,
-  TrendingUp
+  TrendingUp,
+  Briefcase,
+  Clock3,
+  User,
+  Phone,
+  Mail,
+  FileText
 } from 'lucide-angular';
 
 export const appConfig: ApplicationConfig = {
@@ -39,7 +45,13 @@ export const appConfig: ApplicationConfig = {
         Activity,
         ChartColumn,
         IndianRupee,
-        TrendingDown
+        TrendingDown,
+        Briefcase,
+        Clock3,
+        User,
+        Phone,
+        Mail,
+        FileText
       })
     )
   ]
