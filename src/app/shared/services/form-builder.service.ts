@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/fo
 export interface FormFieldConfig {
     name: string;
     label: string;
-    type: 'text' | 'email' | 'tel' | 'password' | 'number' | 'date' | 'time' | 'textarea' | 'select' | 'checkbox' | 'radio';
+    type: 'text' | 'email' | 'tel' | 'password' | 'number' | 'date' | 'time' | 'textarea' | 'select' | 'checkbox' | 'radio' | 'number' | 'workingHours';
     placeholder?: string;
     required?: boolean;
     validators?: any[];
@@ -67,6 +67,16 @@ export class FormBuilderService {
             validators.push(Validators.email);
         }
 
+        if (field.type === 'number') {
+            // HTML5 number input handles type validation, but we can add min/max validators
+            if (field.min !== undefined) {
+                validators.push(Validators.min(field.min));
+            }
+            if (field.max !== undefined) {
+                validators.push(Validators.max(field.max));
+            }
+        }
+
         if (field.type === 'tel' && field.pattern) {
             validators.push(Validators.pattern(field.pattern));
         }
@@ -118,6 +128,9 @@ export class FormBuilderService {
             return `${this.getFieldLabel(fieldName)} must be no more than ${errors['max'].max}`;
         }
 
+        if (errors['number']) {
+            return 'Phone Number is Valid.';
+        }
         return 'Invalid input';
     }
 

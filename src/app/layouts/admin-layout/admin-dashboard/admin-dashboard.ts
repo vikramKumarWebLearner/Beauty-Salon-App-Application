@@ -14,6 +14,7 @@ export class AdminDashboard {
   private readonly initialSidebarItems: SidebarItem[] = [
     { label: 'Dashboard', icon: 'fas fa-home', route: '/admin/dashboard' },
     { label: 'Appointments', icon: 'far fa-calendar-alt', route: '/admin/appointments' },
+    { label: 'Shifts', icon: 'fas fa-clock', route: '/admin/shifts' },
     { label: 'Staff Management', icon: 'fas fa-user-friends', route: '/admin/staff-management' },
     { label: 'Services', icon: 'fas fa-scissors', route: '/admin/services' },
     { label: 'Analytics', icon: 'fas fa-chart-bar', route: '/admin/analytics' },

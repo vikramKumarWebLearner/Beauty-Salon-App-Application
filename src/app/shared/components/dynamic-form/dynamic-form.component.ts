@@ -9,14 +9,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTimepickerModule } from '@angular/material/timepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { WorkingHoursComponent } from '../working-hours/working-hours.component'
 @Component({
   selector: 'app-dynamic-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatDatepickerModule, MatInputModule, MatNativeDateModule,
-    MatFormFieldModule, MatTimepickerModule, MatButtonModule, MatIconModule
+    MatFormFieldModule, MatTimepickerModule, MatButtonModule, MatIconModule,
+    WorkingHoursComponent
   ],
   template: `
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
+    <form [formGroup]="form" (ngSubmit)="!hideButtons && onSubmit()" class="space-y-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         @for (field of config.fields; track field.name) {
           <div [ngClass]="getFieldColumnClass(field)">
@@ -128,6 +130,13 @@ import { MatIconModule } from '@angular/material/icon';
                   }
                 </div>
               }
+
+              @case('workingHours'){
+                <!-- <div class="pt-4 border-t"> -->
+                    <app-working-hours  [formControlName]="field.name">
+                    </app-working-hours>
+                <!-- </div> -->
+              }
               @default {
                 <input 
                   [type]="field.type"
@@ -156,26 +165,29 @@ import { MatIconModule } from '@angular/material/icon';
       </div>
 
       <!-- Form Actions -->
-      <div class="flex justify-end space-x-3 pt-6 border-t">
-        <button 
-          type="button" 
-          (click)="onCancel()"
-          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
-          Cancel
-        </button>
-        <button 
-          type="submit"
-          [disabled]="form.invalid"
-          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
-          {{ config.submitText || 'Submit' }}
-        </button>
-      </div>
+      @if (!hideButtons) {
+        <div class="flex justify-end space-x-3 pt-6 border-t">
+          <button 
+            type="button" 
+            (click)="onCancel()"
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            Cancel
+          </button>
+          <button 
+            type="submit"
+            [disabled]="form.invalid"
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+            {{ config.submitText || 'Submit' }}
+          </button>
+        </div>
+      }
     </form>
   `
 })
 export class DynamicFormComponent implements OnInit, OnChanges {
   @Input() config!: FormConfig;
   @Input() form!: FormGroup;
+  @Input() hideButtons: boolean = false;
 
   @Output() formSubmit = new EventEmitter<any>();
   @Output() formCancel = new EventEmitter<void>();
@@ -226,7 +238,7 @@ export class DynamicFormComponent implements OnInit, OnChanges {
 
   getFieldColumnClass(field: FormFieldConfig): string {
     // Some fields might need full width
-    const fullWidthFields = ['textarea', 'checkbox', 'radio'];
+    const fullWidthFields = ['textarea', 'checkbox', 'radio', 'workingHours'];
     return fullWidthFields.includes(field.type) ? 'md:col-span-2' : '';
   }
 }

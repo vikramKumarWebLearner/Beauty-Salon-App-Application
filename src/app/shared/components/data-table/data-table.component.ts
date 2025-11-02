@@ -313,8 +313,8 @@ export class DataTableComponent {
       'confirmed': 'border-transparent hover:bg-primary/80 bg-green-100 text-green-800',
       'completed': 'border-transparent hover:bg-primary/80 bg-blue-100 text-blue-800',
       'cancelled': 'border-transparent hover:bg-primary/80 bg-red-100 text-red-800',
-      'active': 'border-transparent hover:bg-primary/80 bg-green-100 text-green-800',
-      'inactive': 'border-transparent hover:bg-primary/80 bg-gray-100 text-gray-800'
+      'Active': 'border-transparent hover:bg-primary/80 bg-green-100 text-green-800',
+      'Inactive': 'border-transparent hover:bg-primary/80 bg-gray-100 text-gray-800'
     };
     return statusClasses[status] || 'border-transparent hover:bg-primary/80 bg-gray-100 text-gray-800';
   }

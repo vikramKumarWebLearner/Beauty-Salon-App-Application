@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/auth/auth.service';
-import { NotificationService } from '../../core/services/notification.service';
-
+// import { NotificationService } from '../../core/services/notification.service';
+import { NotificationService } from '../../../app/public/notification.service';
 // Modern type definitions
 type UserType = 'customer' | 'staff' | 'admin';
 
@@ -25,7 +25,7 @@ export class LoginComponent {
     // Modern dependency injection
     readonly #authService = inject(AuthService);
     readonly #router = inject(Router);
-    readonly #notificationService = inject(NotificationService);
+    private toast = inject(NotificationService);
 
     // Signal-based state management
     readonly errorMessage = signal('');
@@ -80,11 +80,11 @@ export class LoginComponent {
             if (errors?.['required']) {
                 return `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required`;
             }
-            if (errors?.['email']) {
+            if (errors?.['email'] ?? errors?.['dotCom']) {
                 return 'Please enter a valid email address';
             }
             if (errors?.['dotCom']) {
-
+                return 'Please enter a valid email address';
             }
             if (errors?.['minlength']) {
                 return `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} must be at least ${errors['minlength'].requiredLength} characters long`;
@@ -135,8 +135,7 @@ export class LoginComponent {
                 }
 
                 // Show success message
-                this.#notificationService.showLoginSuccess(roleToUse);
-
+                this.toast.show(res.message, 'success');
                 // Modern switch with proper typing
                 const routes: Record<UserType, string[]> = {
                     admin: ['/admin/dashboard'],
@@ -153,7 +152,8 @@ export class LoginComponent {
                 this.isLoading.set(false);
                 const errorMessage = err.error?.message || err.message || 'Login failed. Please try again.';
                 this.errorMessage.set(errorMessage);
-                this.#notificationService.showError(errorMessage, 'Login Failed');
+                // this.#notificationService.showError(errorMessage, 'Login Failed');
+                this.toast.show(errorMessage, 'error');
             }
         });
     }

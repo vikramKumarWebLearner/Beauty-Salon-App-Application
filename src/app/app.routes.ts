@@ -38,11 +38,18 @@ export const routes: Routes = [
                                 (m) => m.Appointments
                             ),
                     },
+                    {
+                        path: 'shifts',
+                        loadComponent: () =>
+                            import('./layouts/admin-layout/shifts/shifts').then(
+                                (m) => m.Shifts
+                            ),
+                    },
                     // Add more admin child routes here if needed:
-                    // {
-                    //   path: 'staff',
-                    //   loadComponent: () => import('./layouts/admin-layout/staff/staff').then(m => m.Staff),
-                    // },
+                    {
+                        path: 'staff-management',
+                        loadComponent: () => import('./layouts/admin-layout/staff/staff').then(m => m.Staff),
+                    },
                 ],
             },
         ],
