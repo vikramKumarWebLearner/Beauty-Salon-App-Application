@@ -22,7 +22,7 @@ jobs:
         run: npm ci
 
       - name: Build Angular app
-        run: npm run build --if-present -- --configuration production
+        run: npm run build --if-present -- --configuration production --force --legacy-peer-deps
 
       - name: Deploy to Firebase Hosting
         uses: w9jds/firebase-action@v13.4.0
