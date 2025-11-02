@@ -1,6 +1,6 @@
 {
     "hosting": {
-        "public": "dist/Beatuy Salon",
+        "public": "dist/salon-management-app",
         "ignore": [
             "firebase.json",
             "**/.*",
@@ -9,7 +9,7 @@
         "rewrites": [
             {
                 "source": "**",
-                "destination": "/src/index.html"
+                "destination": "/index.html"
             }
         ]
     }
