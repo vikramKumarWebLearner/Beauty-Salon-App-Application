@@ -1,6 +1,6 @@
 import { Component, inject, signal, computed, effect } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, Validators, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/auth/auth.service';
 import { NotificationService } from '../../core/services/notification.service';
@@ -11,6 +11,7 @@ type UserType = 'customer' | 'staff' | 'admin';
 interface LoginForm {
     email: FormControl<string>;
     password: FormControl<string>;
+
     // userType: FormControl<UserType>;
 }
 
@@ -30,10 +31,18 @@ export class LoginComponent {
     readonly errorMessage = signal('');
     readonly isLoading = signal(false);
 
+    emailDotComValidator(control: FormControl<string>): ValidationErrors | null {
+        const value = control.value?.toLowerCase();
+        if (value && !value.endsWith('.com')) {
+            return { dotCom: true };
+        }
+        return null;
+    }
+
     // Modern FormGroup with typed controls
     readonly loginForm = new FormGroup<LoginForm>({
         email: new FormControl('', {
-            validators: [Validators.required, Validators.email],
+            validators: [Validators.required, Validators.email, this.emailDotComValidator],
             nonNullable: true
         }),
         password: new FormControl('', {
@@ -73,6 +82,9 @@ export class LoginComponent {
             }
             if (errors?.['email']) {
                 return 'Please enter a valid email address';
+            }
+            if (errors?.['dotCom']) {
+
             }
             if (errors?.['minlength']) {
                 return `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} must be at least ${errors['minlength'].requiredLength} characters long`;
@@ -144,22 +156,5 @@ export class LoginComponent {
                 this.#notificationService.showError(errorMessage, 'Login Failed');
             }
         });
-    }
-
-    // Test methods for toast notifications
-    testSuccess(): void {
-        this.#notificationService.showSuccess('This is a test success message!', 'Test Success');
-    }
-
-    testError(): void {
-        this.#notificationService.showError('This is a test error message!', 'Test Error');
-    }
-
-    testInfo(): void {
-        this.#notificationService.showInfo('This is a test info message!', 'Test Info');
-    }
-
-    testWarning(): void {
-        this.#notificationService.showWarning('This is a test warning message!', 'Test Warning');
     }
 }

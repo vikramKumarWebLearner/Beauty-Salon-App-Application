@@ -173,8 +173,8 @@ export class AppointmentService {
         });
     }
 
-    deleteAppointment(id: string) {
-        return this.http.delete(`/api/bookings/${id}`, {
+    deleteAppointment(id: string): Observable<ApiResponse> {
+        return this.http.delete<ApiResponse>(`${this.apiUrl}/bookings/admin/${id}`, {
             headers: this.headers,
         });
     }

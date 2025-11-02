@@ -45,4 +45,13 @@
         <app-appointment-view [appointment]="selectedAppointment()"></app-appointment-view>
     </app-modal>
 
+    <!-- Delete Confirmation Modal -->
+    <app-confirmation-modal 
+        [config]="deleteModalConfig" 
+        [isOpen]="isDeleteModalOpen" 
+        (confirmed)="onDeleteConfirm()" 
+        (cancelled)="onDeleteCancel()" 
+        (closed)="closeDeleteModal()">
+    </app-confirmation-modal>
+
 </main>

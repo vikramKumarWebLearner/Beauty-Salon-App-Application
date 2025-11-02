@@ -9,6 +9,8 @@ import {
   ModalConfig,
   DynamicFormComponent,
   AppointmentViewComponent,
+  ConfirmationModalComponent,
+  ConfirmationModalConfig,
   FormBuilderService,
   FormConfig
 } from '../../../shared';
@@ -19,7 +21,7 @@ import { TimeFormatPipe } from '../../../shared/pipes/timeFormat.pipe';
 @Component({
   selector: 'app-appointments',
   standalone: true,
-  imports: [CommonModule, FormsModule, DataTableComponent, ModalComponent, DynamicFormComponent, AppointmentViewComponent],
+  imports: [CommonModule, FormsModule, DataTableComponent, ModalComponent, DynamicFormComponent, AppointmentViewComponent, ConfirmationModalComponent],
   templateUrl: './appointments.html',
   styleUrl: './appointments.css'
 })
@@ -31,11 +33,13 @@ export class Appointments implements OnInit {
   loading = signal(true);
   isModalOpen = signal(false);
   isViewModalOpen = signal(false);
+  isDeleteModalOpen = signal(false);
   appointments = signal<any[]>([]);
   originalAppointments = signal<any[]>([]); // Store original data with IDs
   searchTerm = signal('');
   editingAppointmentId = signal<string | null>(null);
   selectedAppointment = signal<any>(null);
+  appointmentToDelete = signal<any>(null);
   appointmentForm!: FormGroup;
 
   // ✅ Computed signal for search filter
@@ -198,6 +202,14 @@ export class Appointments implements OnInit {
     size: 'lg',
     closable: true,
     backdropClose: true
+  };
+
+  // ✅ Delete Confirmation Modal configuration
+  deleteModalConfig: ConfirmationModalConfig = {
+    title: 'Delete Appointment',
+    message: 'Are you sure you want to delete this appointment? This action cannot be undone.',
+    confirmText: 'Delete',
+    cancelText: 'Cancel'
   };
 
   // ✅ Dynamic Form configuration
@@ -376,8 +388,7 @@ export class Appointments implements OnInit {
         this.openEditModal(event.row);
         break;
       case 'delete':
-        console.log('Delete appointment:', event.row);
-        // TODO: Implement delete functionality with confirmation
+        this.openDeleteModal(event.row);
         break;
     }
   }
@@ -407,5 +418,49 @@ export class Appointments implements OnInit {
   closeViewModal(): void {
     this.isViewModalOpen.set(false);
     this.selectedAppointment.set(null);
+  }
+
+  // ✅ Delete Modal Controls
+  openDeleteModal(appointment: any): void {
+    this.appointmentToDelete.set(appointment);
+    this.isDeleteModalOpen.set(true);
+  }
+
+  closeDeleteModal(): void {
+    this.isDeleteModalOpen.set(false);
+    this.appointmentToDelete.set(null);
+  }
+
+  onDeleteConfirm(): void {
+    const appointment = this.appointmentToDelete();
+    if (!appointment || !appointment.id) {
+      this.toast.show('Appointment not found', 'error');
+      this.closeDeleteModal();
+      return;
+    }
+
+    this.appointmentService.deleteAppointment(appointment.id).subscribe({
+      next: (res: any) => {
+        if (res && res.success) {
+          this.toast.show('Appointment deleted successfully', 'success');
+          this.loadAppointments();
+          this.closeDeleteModal();
+        } else {
+          this.toast.show(res.message || 'Failed to delete appointment', 'error');
+        }
+      },
+      error: (err) => {
+        console.error('Error deleting appointment:', err);
+        if (err.error?.message) {
+          this.toast.show(err.error.message, 'error');
+        } else {
+          this.toast.show('Failed to delete appointment', 'error');
+        }
+      }
+    });
+  }
+
+  onDeleteCancel(): void {
+    this.closeDeleteModal();
   }
 }
