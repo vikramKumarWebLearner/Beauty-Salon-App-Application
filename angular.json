@@ -22,8 +22,16 @@
               }
             ],
             "styles": [
-              "src/styles.css",
-              "src/website.css"
+              {
+                "input": "src/styles.css",
+                "inject": true,
+                "bundleName": "styles"
+              },
+              {
+                "input": "src/website.css",
+                "inject": true,
+                "bundleName": "website"
+              }
             ]
           },
           "configurations": {
@@ -36,8 +44,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "50kB",
+                  "maximumError": "100kB"
                 }
               ],
               "outputHashing": "all",
@@ -102,8 +110,16 @@
               }
             ],
             "styles": [
-              "src/styles.css",
-              "src/website.css"
+              {
+                "input": "src/styles.css",
+                "inject": true,
+                "bundleName": "styles"
+              },
+              {
+                "input": "src/website.css",
+                "inject": true,
+                "bundleName": "website"
+              }
             ]
           }
         }

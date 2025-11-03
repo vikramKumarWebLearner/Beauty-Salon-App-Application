@@ -16,6 +16,7 @@ interface Environment {
     auth: {
         tokenKey: string;
         refreshTokenKey: string;
+        roleKey: string;
         tokenExpirationTime: number;
     };
     salon: {
@@ -32,7 +33,7 @@ interface Environment {
 
 export const environment: Environment = {
     production: true,
-    apiUrl: 'https://api.bellabeauty.com/api',
+    apiUrl: 'https://beauty-salon-backend-632498015941.us-central1.run.app/api/v1/',
     appName: 'Bella Beauty Salon Management',
     version: '1.0.0',
     apiTimeout: 8000, // Shorter timeout for production
@@ -46,6 +47,7 @@ export const environment: Environment = {
     auth: {
         tokenKey: 'bella_beauty_token',
         refreshTokenKey: 'bella_beauty_refresh_token',
+        roleKey: 'bella_beauty_role',
         tokenExpirationTime: 3600000, // 1 hour in production
     },
     salon: {
