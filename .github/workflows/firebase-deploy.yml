@@ -29,5 +29,7 @@ jobs:
         with:
           args: deploy --only hosting
         env:
+          ACTIONS_RUNNER_DEBUG: 'true'
+          ACTIONS_STEP_DEBUG: 'true'
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BEAUTY_SALON_WEB_474517 }}
           PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
