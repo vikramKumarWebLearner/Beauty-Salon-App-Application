@@ -33,7 +33,7 @@ interface Environment {
 
 export const environment: Environment = {
     production: true,
-    apiUrl: 'https://beauty-salon-backend-632498015941.us-central1.run.app/api/v1/',
+    apiUrl: 'https://beauty-salon-backend-632498015941.us-central1.run.app/api/v1',
     appName: 'Bella Beauty Salon Management',
     version: '1.0.0',
     apiTimeout: 8000, // Shorter timeout for production
