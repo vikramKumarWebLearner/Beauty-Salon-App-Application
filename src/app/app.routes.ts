@@ -50,6 +50,11 @@ export const routes: Routes = [
                         path: 'staff-management',
                         loadComponent: () => import('./layouts/admin-layout/staff/staff').then(m => m.Staff),
                     },
+                    {
+                        path: 'services',
+                        loadComponent: () => import('./layouts/admin-layout/service/service').then(m => m.Service),
+                    },
+
                 ],
             },
         ],
