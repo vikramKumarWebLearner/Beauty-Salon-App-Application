@@ -8,7 +8,7 @@ import {
   ModalComponent,
   ModalConfig,
   DynamicFormComponent,
-  // StaffViewComponent,
+  ServiceViewComponent,
   ConfirmationModalComponent,
   ConfirmationModalConfig,
   FormBuilderService,
@@ -19,8 +19,9 @@ import { ServicePart } from '../../../core/services/service.service';
 import { NotificationService } from '../../../../app/public/notification.service';
 @Component({
   selector: 'app-service',
+  standalone: true,
   templateUrl: './service.html',
-  imports: [CommonModule, FormsModule, DataTableComponent, ModalComponent, DynamicFormComponent, ConfirmationModalComponent],
+  imports: [CommonModule, FormsModule, DataTableComponent, ModalComponent, DynamicFormComponent, ConfirmationModalComponent, ServiceViewComponent],
   styleUrl: './service.css',
 })
 export class Service implements OnInit {
@@ -74,7 +75,7 @@ export class Service implements OnInit {
               id: item._id,
               name: item?.name || item.name || 'N/A',
               price: item.price || item.price,
-              duration: item.duration || item.duration,
+              duration: item.duration?.$numberDecimal || item.duration?.$numberDecimal,
               description: item.description || item.description,
               isActive: item.isActive || item.isActive,
               status: item.status || 'pending'
@@ -101,7 +102,7 @@ export class Service implements OnInit {
     columns: [
       { key: 'name', label: 'Name', sortable: true },
       { key: 'price', label: 'Price', sortable: true },
-      { key: 'duration', label: 'Time', type: 'time', sortable: true },
+      { key: 'duration', label: 'Time', type: 'duration', sortable: true },
       { key: 'description', label: 'Description', sortable: true },
       { key: 'status', label: 'Status', type: 'status', sortable: true }
     ],
@@ -195,7 +196,7 @@ export class Service implements OnInit {
       id: originalService._id,
       name: originalService?.name || originalService.name || 'N/A',
       price: originalService.price || originalService.price,
-      duration: originalService.duration || originalService.duration,
+      duration: originalService.duration?.$numberDecimal || originalService.duration?.$numberDecimal,
       description: originalService.description || originalService.description,
       isActive: originalService.isActive || originalService.isActive,
       status: originalService.status || 'pending'
@@ -283,23 +284,24 @@ export class Service implements OnInit {
     }
   }
 
-  openViewModal(shift: any): void {
+  openViewModal(service: any): void {
     // Find original shift data for complete details
-    const originalShift = this.originalService().find(
-      (item: any) => item._id === shift.id
+    const originalService = this.originalService().find(
+      (item: any) => item._id === service.id
     );
     // Prepare shift data with all fields
-    const shiftData = {
-      staffName: shift.staffName,
-      date: shift.date,
-      startTime: shift.startTime,
-      endTime: shift.endTime,
-      location: shift.location,
-      status: shift.status,
-      notes: originalShift?.notes || ''
+    const serviceData = {
+      id: originalService._id,
+      name: originalService?.name || originalService.name || 'N/A',
+      price: originalService.price || originalService.price,
+      duration: originalService.duration?.$numberDecimal || originalService.duration?.$numberDecimal,
+      description: originalService.description || originalService.description,
+      // createdAt: originalService.createdAt || originalService.createdAt,
+      // isActive: originalService.isActive || originalService.isActive,
+      status: originalService.isActive || 'pending'
     };
 
-    this.selectedService.set(shiftData);
+    this.selectedService.set(serviceData);
     this.isViewModalOpen.set(true);
   }
 
@@ -334,15 +336,15 @@ export class Service implements OnInit {
           this.loadServices();
           this.closeDeleteModal();
         } else {
-          this.toast.show(res.message || 'Failed to delete shift', 'error');
+          this.toast.show(res.message || 'Failed to delete service', 'error');
         }
       },
       error: (err) => {
-        console.error('Error deleting shift:', err);
+        console.error('Error deleting service:', err);
         if (err.error?.message) {
           this.toast.show(err.error.message, 'error');
         } else {
-          this.toast.show('Failed to delete shift', 'error');
+          this.toast.show('Failed to delete service', 'error');
         }
       }
     });

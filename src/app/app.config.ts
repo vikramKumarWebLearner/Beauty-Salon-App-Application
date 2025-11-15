@@ -22,7 +22,8 @@ import {
   User,
   Phone,
   Mail,
-  FileText
+  FileText,
+  Timer
 } from 'lucide-angular';
 
 export const appConfig: ApplicationConfig = {
@@ -51,7 +52,8 @@ export const appConfig: ApplicationConfig = {
         User,
         Phone,
         Mail,
-        FileText
+        FileText,
+        Timer
       })
     )
   ]

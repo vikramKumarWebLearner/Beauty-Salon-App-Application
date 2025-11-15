@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DateTimeFormatPipe } from '../../pipes/date-time-format.pipe'
 import { TimeFormatPipe } from '../../pipes/timeFormat.pipe';
+import { DurationFormatPipe } from '../../pipes/duration-format-pipe';
 export interface TableColumn {
   key: string;
   label: string;
-  type?: 'text' | 'date' | 'time' | 'status' | 'actions' | 'custom';
+  type?: 'text' | 'date' | 'time' | 'status' | 'actions' | 'custom' | 'duration';
   sortable?: boolean;
   width?: string;
   customTemplate?: string;
@@ -32,7 +33,7 @@ export interface TableConfig {
 @Component({
   selector: 'app-data-table',
   standalone: true,
-  imports: [CommonModule, FormsModule, DateTimeFormatPipe, TimeFormatPipe],
+  imports: [CommonModule, FormsModule, DateTimeFormatPipe, TimeFormatPipe, DurationFormatPipe],
   template: `
     <div class="space-y-4 mt-5">
       <!-- Table -->
@@ -99,6 +100,9 @@ export interface TableConfig {
                         }
                         @case ('time') {
                           {{ row[column.key] | timeFormat }}
+                        }
+                        @case ('duration') {
+                          {{ row[column.key] | durationFormat }}
                         }
                         @case ('custom') {
                           <ng-container [ngTemplateOutlet]="getCustomTemplate(column.customTemplate!)" 

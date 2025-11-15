@@ -7,6 +7,7 @@ export * from './components/modal/shift-view.component';
 export * from './components/modal/confirmation-modal.component';
 export * from './components/dynamic-form/dynamic-form.component';
 export * from './components/working-hours/working-hours.component';
+export * from './components/modal/service-view.component';
 
 // Services
 export * from './services/form-builder.service';

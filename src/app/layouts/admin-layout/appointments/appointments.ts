@@ -297,7 +297,6 @@ export class Appointments implements OnInit {
     // Convert date string to Date object for Material datepicker
     const dateValue = originalAppointment.date || originalAppointment.appointmentDate || '';
     const dateObj = dateValue ? new Date(dateValue) : null;
-    console.log(originalAppointment.time);
 
     // Map appointment data to form values
     const formValues: any = {

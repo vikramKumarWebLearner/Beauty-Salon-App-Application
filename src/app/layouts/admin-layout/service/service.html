@@ -41,9 +41,9 @@
     </app-modal>
 
     <!-- View Appointment Modal -->
-    <!-- <app-modal [config]="viewModalConfig" [isOpen]="isViewModalOpen" (closed)="closeViewModal()">
-        <app-appointment-view [appointment]="selectedAppointment()"></app-appointment-view>
-    </app-modal> -->
+    <app-modal [config]="viewModalConfig" [isOpen]="isViewModalOpen" (closed)="closeViewModal()">
+        <app-service-view [service]="selectedService()"></app-service-view>
+    </app-modal>
 
     <!-- Delete Confirmation Modal -->
     <app-confirmation-modal [config]="deleteModalConfig" [isOpen]="isDeleteModalOpen" (confirmed)="onDeleteConfirm()"
