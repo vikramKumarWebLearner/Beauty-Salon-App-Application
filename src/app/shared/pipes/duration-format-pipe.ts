@@ -8,8 +8,6 @@ export class DurationFormatPipe implements PipeTransform {
   transform(value: number): string {
     if (!value) return '0 mins';
 
-    console.log(value);
-
     // Split hours and minutes
     const parts = value.toString().split('.');
 
