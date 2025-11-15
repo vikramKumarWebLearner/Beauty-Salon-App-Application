@@ -1,12 +1,13 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
 import { DashboardService } from '../../../core/services/dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, NgClass, LucideAngularModule],
+  imports: [CommonModule, NgClass, RouterLink, LucideAngularModule],
   templateUrl: './dashboard.html'
 })
 export class Dashboard implements OnInit {

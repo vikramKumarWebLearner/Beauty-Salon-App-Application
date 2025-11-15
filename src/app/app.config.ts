@@ -4,6 +4,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
+import { NgApexchartsModule } from "ng-apexcharts";
 import {
   LucideAngularModule,
   Users,
@@ -33,6 +34,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
     provideAnimations(),
+    NgApexchartsModule,
     // provideLucideAngular(LucideIcons),
     importProvidersFrom(ReactiveFormsModule, FormsModule,
       LucideAngularModule.pick({

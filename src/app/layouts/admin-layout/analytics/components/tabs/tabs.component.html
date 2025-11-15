@@ -1,0 +1,13 @@
+<div class="w-full">
+  <div class="grid grid-cols-4 bg-muted p-1 rounded-xl">
+    @for (tab of tabs; track tab.value) {
+    <button (click)="onTabClick(tab.value)"
+      class="flex items-center justify-center rounded-md px-4 py-2 text-sm text-muted-foreground font-medium transition-all"
+      [ngClass]="{
+          'bg-white text-gray-900 shadow-sm transition-all': isActive(tab.value)
+        }">
+      {{ tab.label }}
+    </button>
+    }
+  </div>
+</div>

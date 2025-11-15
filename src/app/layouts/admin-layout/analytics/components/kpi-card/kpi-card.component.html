@@ -1,0 +1,20 @@
+<div class="p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+    <div class="flex items-center justify-between">
+        <div>
+            <p class="text-sm text-gray-500 mb-1 text-sm text-muted-foreground">{{ label }}</p>
+            <p class="text-3xl font-bold text-gray-900">{{ value }}</p>
+
+            <div class="flex items-center gap-1 mt-2" [ngClass]="changeColor">
+                <lucide-icon [name]="trendIcon" [size]="16" [ngClass]="changeColor">
+                </lucide-icon>
+                <span class="text-sm font-medium" [ngClass]="changeColor">
+                    {{ change }} vs last month
+                </span>
+            </div>
+        </div>
+        <div [ngClass]="['p-3 rounded-xl', color]">
+            <lucide-icon [name]="icon" [size]="24" class="w-6 h-6">
+            </lucide-icon>
+        </div>
+    </div>
+</div>

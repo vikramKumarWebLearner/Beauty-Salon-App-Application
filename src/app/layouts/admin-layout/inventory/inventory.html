@@ -11,7 +11,7 @@
                     </svg>
                     <input type="text" [ngModel]="searchTerm()" (ngModelChange)="onSearch($event)"
                         class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm pl-10"
-                        placeholder="Search staff..." value="">
+                        placeholder="Search inventory...." value="">
                 </div>
                 <button
                     class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 gap-2"
@@ -21,12 +21,12 @@
                         class="lucide lucide-plus h-4 w-4">
                         <path d="M5 12h14"></path>
                         <path d="M12 5v14"></path>
-                    </svg>New Staff
+                    </svg>New Inventory
                 </button>
             </div>
 
             <!-- Data Table -->
-            <app-data-table [data]="filteredStaffs()" [config]="tableConfig" [searchPlaceholder]="'staffs'"
+            <app-data-table [data]="filteredInventory()" [config]="tableConfig" [searchPlaceholder]="'inventory'"
                 [rowIdField]="'id'" [loading]="loading()" (actionClick)="onTableAction($event)">
             </app-data-table>
         </div>
@@ -35,14 +35,14 @@
     <!-- Modal with Dynamic Form -->
     <app-modal [config]="modalConfig" [isOpen]="isModalOpen" (closed)="closeModal()" (submitted)="onFormSubmit($event)">
 
-        <app-dynamic-form [config]="formConfig" [form]="staffForm" (formSubmit)="onFormSubmit($event)"
+        <app-dynamic-form [config]="formConfig" [form]="inventoryForm" (formSubmit)="onFormSubmit($event)"
             (formCancel)="onFormCancel()">
         </app-dynamic-form>
     </app-modal>
 
     <!-- View Appointment Modal -->
     <!-- <app-modal [config]="viewModalConfig" [isOpen]="isViewModalOpen" (closed)="closeViewModal()">
-        <app-appointment-view [appointment]="selectedAppointment()"></app-appointment-view>
+        <app-service-view [service]="selectedInventory()"></app-service-view>
     </app-modal> -->
 
     <!-- Delete Confirmation Modal -->

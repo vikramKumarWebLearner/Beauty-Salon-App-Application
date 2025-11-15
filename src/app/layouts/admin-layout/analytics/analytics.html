@@ -1,0 +1,35 @@
+<div class="space-y-6 p-6">
+    <!-- Loading State -->
+    @if (loading()) {
+    <div class="flex items-center justify-center py-12">
+        <div class="text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-pink mx-auto mb-4"></div>
+            <p class="text-gray-600">Loading analytics...</p>
+        </div>
+    </div>
+    } @else {
+    <!-- KPI Cards Section -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        @for (kpi of kpiData; track kpi.label) {
+        <app-kpi-card [label]="kpi.label" [value]="kpi.value" [change]="kpi.change" [trend]="kpi.trend"
+            [icon]="kpi.icon" [color]="kpi.color">
+        </app-kpi-card>
+        }
+    </div>
+
+    <!-- Tabs Section -->
+    <app-tabs [tabs]="tabs" [selectedTab]="selectedTab()" (tabChange)="onTabChange($event)">
+    </app-tabs>
+
+    <!-- Charts Section -->
+    <div class="grid lg:grid-cols-2 gap-6 bg-white">
+        <!-- Revenue Trends Chart -->
+        <app-revenue-trends [tabSelected]="selectedTab()">
+        </app-revenue-trends>
+
+        <!-- Customer Satisfaction Chart -->
+        <app-customer-satisfaction [tabSelected]="selectedTab()">
+        </app-customer-satisfaction>
+    </div>
+    }
+</div>
