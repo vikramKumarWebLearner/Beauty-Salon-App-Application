@@ -8,7 +8,7 @@ import {
   ModalComponent,
   ModalConfig,
   DynamicFormComponent,
-  // StaffViewComponent,
+  InventoryViewComponent,
   ConfirmationModalComponent,
   ConfirmationModalConfig,
   FormBuilderService,
@@ -19,7 +19,8 @@ import { InventoryService } from '../../../core/services/inventory.service';
 import { NotificationService } from '../../../../app/public/notification.service';
 @Component({
   selector: 'app-inventory',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, DataTableComponent, ModalComponent, DynamicFormComponent, ConfirmationModalComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, DataTableComponent, ModalComponent, DynamicFormComponent,
+    ConfirmationModalComponent, InventoryViewComponent],
   templateUrl: './inventory.html',
   styleUrl: './inventory.css',
 })
@@ -77,7 +78,7 @@ export class Inventory implements OnInit {
               id: item._id,
               productName: item?.productName || item.productName || 'N/A',
               sku: item.sku || item.sku,
-              categoryId: item.categoryId?.categoryName || item.duration?.categoryName,
+              categoryId: item.categoryId?.name || item.categoryId?.name,
               quantity: item.quantity || item.quantity,
               stock: item.stock || item.stock,
               unit: item.unit || item.unit,
@@ -112,10 +113,11 @@ export class Inventory implements OnInit {
             label: category.name
           }));
 
-          const categoryField = this.formConfig.fields.find(f => f.name === 'name');
+          const categoryField = this.formConfig.fields.find(f => f.name === 'categoryId');
           if (categoryField) {
             categoryField.options = categoryOption;
           }
+
         }
       },
       error: (err) => {
@@ -181,7 +183,8 @@ export class Inventory implements OnInit {
         name: 'categoryId',
         label: 'Category',
         type: 'select',
-        required: false,
+        required: true,
+        placeholder: 'Select Category',
         options: [] // dynamically populate from API
       },
       { name: 'quantity', label: 'Quantity', type: 'number', required: true },
@@ -241,7 +244,7 @@ export class Inventory implements OnInit {
       id: originalInventory._id,
       productName: originalInventory?.productName || originalInventory.productName || 'N/A',
       sku: originalInventory.sku || originalInventory.sku,
-      categoryId: originalInventory.categoryId?.categoryName || originalInventory.duration?.categoryName,
+      categoryId: originalInventory.categoryId?._id || originalInventory.categoryId?._id,
       quantity: originalInventory.quantity || originalInventory.quantity,
       stock: originalInventory.stock || originalInventory.stock,
       unit: originalInventory.unit || originalInventory.unit,
@@ -342,7 +345,7 @@ export class Inventory implements OnInit {
       id: originalInventory._id,
       productName: originalInventory?.productName || originalInventory.productName || 'N/A',
       sku: originalInventory.sku || originalInventory.sku,
-      categoryId: originalInventory.categoryId?.categoryName || originalInventory.duration?.categoryName,
+      categoryId: originalInventory.categoryId?.name || originalInventory.duration?.name,
       quantity: originalInventory.quantity || originalInventory.quantity,
       stock: originalInventory.stock || originalInventory.stock,
       unit: originalInventory.unit || originalInventory.unit,
@@ -350,6 +353,7 @@ export class Inventory implements OnInit {
       supplierName: originalInventory.supplierName || originalInventory.supplierName,
       status: originalInventory.status || 'stock'
     };
+    console.log(serviceData);
 
     this.selectedInventory.set(serviceData);
     this.isViewModalOpen.set(true);

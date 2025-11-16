@@ -51,9 +51,10 @@ import { WorkingHoursComponent } from '../working-hours/working-hours.component'
                   [class]="getInputClasses(field.name)"
                   [class.border-red-300]="hasError(field.name)"
                   [class.focus:ring-red-500]="hasError(field.name)"
+                  
                   class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1"
                   >
-                  <option value="" class="h-4 w-4 opacity-50">{{ field.placeholder || 'Select ' + field.label.toLowerCase() }}</option>
+                  <option value=""  class="h-4 w-4 opacity-50">{{ field.placeholder || 'Select ' + field.label.toLowerCase() }}</option>
                   @for (option of field.options; track option.value) {
                     <option [value]="option.value" class="h-4 w-4 opacity-50">{{ option.label }}</option>
                   }

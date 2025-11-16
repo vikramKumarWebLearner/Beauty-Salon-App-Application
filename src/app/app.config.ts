@@ -24,7 +24,13 @@ import {
   Phone,
   Mail,
   FileText,
-  Timer
+  Timer,
+  Tag,
+  Truck,
+  Barcode,
+  Package,
+  Boxes,
+  Calculator
 } from 'lucide-angular';
 
 export const appConfig: ApplicationConfig = {
@@ -55,7 +61,13 @@ export const appConfig: ApplicationConfig = {
         Phone,
         Mail,
         FileText,
-        Timer
+        Timer,
+        Tag,
+        Truck,
+        Barcode,
+        Package,
+        Boxes,
+        Calculator
       })
     )
   ]
