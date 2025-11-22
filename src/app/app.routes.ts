@@ -62,7 +62,10 @@ export const routes: Routes = [
                         path: 'inventory',
                         loadComponent: () => import('./layouts/admin-layout/inventory/inventory').then(m => m.Inventory),
                     },
-
+                    {
+                        path: 'settings',
+                        loadComponent: () => import('./layouts/admin-layout/setting/setting').then(m => m.Setting),
+                    },
                 ],
             },
         ],

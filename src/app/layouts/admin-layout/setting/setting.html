@@ -1,0 +1,26 @@
+<div class="w-full">
+    <div
+        class="h-11 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground grid w-full grid-cols-4 lg:w-[600px]">
+        @for (tab of tabs; track tab.value) {
+        <button (click)="onTabClick(tab.value)"
+            class="flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-all" [ngClass]="{
+            'bg-white text-gray-900 shadow-sm': isActive(tab.value)
+          }">
+            <lucide-icon height="24" width="24" class="h-4 w-4 mr-2" name="{{tab.icon}}"></lucide-icon>
+            {{ tab.label }}
+        </button>
+        }
+    </div>
+
+    @switch (selectedTab()) {
+
+    @case ('Profile') {
+    <app-profile></app-profile>
+    }
+
+    @case ('Notification') {
+    <app-notification></app-notification>
+    }
+    }
+
+</div>

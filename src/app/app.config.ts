@@ -30,7 +30,10 @@ import {
   Barcode,
   Package,
   Boxes,
-  Calculator
+  Calculator,
+  Bell,
+  Shield,
+  Palette
 } from 'lucide-angular';
 
 export const appConfig: ApplicationConfig = {
@@ -67,7 +70,10 @@ export const appConfig: ApplicationConfig = {
         Barcode,
         Package,
         Boxes,
-        Calculator
+        Calculator,
+        Bell,
+        Shield,
+        Palette
       })
     )
   ]
