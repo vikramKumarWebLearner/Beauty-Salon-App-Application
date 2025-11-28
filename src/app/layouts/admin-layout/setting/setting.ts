@@ -1,8 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 import { Profile } from './components/profile/profile';
 import { Notification } from './components/notification/notification';
+import { SettingService } from '../../../core/services/setting.service';
 @Component({
   selector: 'app-setting',
   imports: [CommonModule, LucideAngularModule, Profile, Notification],
@@ -12,6 +13,8 @@ import { Notification } from './components/notification/notification';
 export class Setting {
 
   selectedTab = signal('Profile');
+
+  settingService = inject(SettingService);
 
   tabs = [
     { label: 'Profile', value: 'Profile', icon: 'user' },

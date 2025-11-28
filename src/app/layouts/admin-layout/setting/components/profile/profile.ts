@@ -1,21 +1,30 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal, ViewChild } from '@angular/core';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SettingService } from '../../../../../core/services/setting.service';
-
+import { NotificationService } from '../../../../../../app/public/notification.service';
+import { LucideAngularModule } from 'lucide-angular';
+import { Image } from './image/image';
 @Component({
   selector: 'app-profile',
+  standalone: true,
+  imports: [ReactiveFormsModule, LucideAngularModule, Image],
   templateUrl: './profile.html',
   styleUrls: ['./profile.css'],
 })
 export class Profile implements OnInit {
 
+  @ViewChild(Image) imageComponent!: Image;
+
   private settingService = inject(SettingService);
   private fb = inject(FormBuilder);
+  private notificationService = inject(NotificationService);
 
   profileForm!: FormGroup;
+  profileData = signal<any>({});
   loading = false;
-  profileData: any = {};
   selectedFile: File | null = null;
+
+  profileImagePreview: string | null = null;
 
   ngOnInit() {
     this.initForm();
@@ -24,10 +33,11 @@ export class Profile implements OnInit {
 
   initForm() {
     this.profileForm = this.fb.group({
-      first_name: ['', Validators.required],
-      last_name: ['', Validators.required],
+      name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: [''],
+      bio: [''],
+      address: [''],
     });
   }
 
@@ -37,48 +47,53 @@ export class Profile implements OnInit {
     this.settingService.getProfile().subscribe({
       next: (res: any) => {
         this.loading = false;
-        this.profileData = res.data;
+        this.profileData.set(res.data);
 
         this.profileForm.patchValue({
-          first_name: res.data.first_name,
-          last_name: res.data.last_name,
-          email: res.data.email,
-          phone: res.data.phone,
+          name: res.data?.name ?? '',
+          email: res.data?.email ?? '',
+          phone: res.data?.phone ?? '',
+          bio: res.data?.bio ?? '',
+          address: res.data?.location?.address ?? '',
         });
+
+        if (res.data?.profile_image) {
+          this.profileImagePreview = res.data.profile_image;
+        }
       },
+
       error: (err) => {
         this.loading = false;
-        console.error("Profile load error:", err);
+        console.error("Profile load error", err);
       }
     });
   }
 
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
+    this.imageComponent.onFileSelected(event);
   }
 
   updateProfile() {
-    if (this.profileForm.invalid) return;
-
-    const formData = new FormData();
-    formData.append("first_name", this.profileForm.value.first_name);
-    formData.append("last_name", this.profileForm.value.last_name);
-    formData.append("email", this.profileForm.value.email);
-    formData.append("phone", this.profileForm.value.phone || '');
-
-    if (this.selectedFile) {
-      formData.append("profile_image", this.selectedFile);
+    if (this.profileForm.invalid) {
+      this.notificationService.show("Please fill required fields", 'error');
+      return;
     }
-
-    // this.settingService.updateProfile(formData).subscribe({
-    //   next: (res: any) => {
-    //     alert("Profile updated successfully");
-    //     this.getProfile();
-    //   },
-    //   error: (err) => {
-    //     console.error("Update error:", err);
-    //   }
-    // });
+    this.settingService.updateProfile(this.profileData()._id, this.profileForm.value).subscribe({
+      next: (res: any) => {
+        this.notificationService.show("Profile updated successfully", 'success');
+        this.getProfile();
+      },
+      error: () => {
+        this.notificationService.show("Something went wrong", 'error');
+      }
+    });
   }
+
+  getInitials(name: string) {
+    if (!name) return "U";
+    const parts = name.split(" ");
+    return parts.map(p => p[0]).join("").toUpperCase();
+  }
+
 
 }

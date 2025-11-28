@@ -1,0 +1,55 @@
+<div class="image-upload-container">
+
+    <!-- Upload Button -->
+    <button class="upload-btn" (click)="fileInput.click()">
+        <span class="icon">⬆</span>
+        Upload Picture
+    </button>
+
+    <!-- Hidden File Input -->
+    <input type="file" #fileInput hidden accept="image/*" (change)="onFileSelected($event)" />
+
+    <!-- Modal -->
+    <div class="modal-overlay" [class.active]="showPopup" (click)="closePopup()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+
+            <!-- Close Button -->
+            <button class="close-btn" (click)="closePopup()">✖</button>
+
+            <!-- Title -->
+            <h2 class="modal-title">Upload Picture</h2>
+
+            <!-- Preview -->
+            <div class="image-preview-wrapper" *ngIf="previewImage; else chooseFileMsg">
+                <img [src]="previewImage" class="image-preview" />
+            </div>
+
+            <ng-template #chooseFileMsg>
+                <p class="choose-file-placeholder">Please select an image...</p>
+            </ng-template>
+
+            <!-- File Info -->
+            <div class="file-info" *ngIf="selectedFile">
+                <p><strong>Name:</strong> {{ selectedFile.name }}</p>
+                <p><strong>Size:</strong> {{ (selectedFile.size / 1024).toFixed(1) }} KB</p>
+                <p><strong>Type:</strong> {{ selectedFile.type }}</p>
+            </div>
+
+            <!-- Actions -->
+            <div class="modal-actions">
+                <button class="btn-cancel" (click)="closePopup()">Cancel</button>
+
+                <button class="btn-upload" (click)="uploadImage()" [disabled]="!selectedFile || isUploading">
+                    <span *ngIf="!isUploading">Upload</span>
+                    <span *ngIf="isUploading" class="loader"></span>
+                </button>
+            </div>
+
+            <!-- Success Message -->
+            <div class="success-message" *ngIf="uploadSuccess">
+                ✔ Picture uploaded successfully!
+            </div>
+
+        </div>
+    </div>
+</div>

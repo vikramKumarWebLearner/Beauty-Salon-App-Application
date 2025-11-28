@@ -32,15 +32,29 @@ export class SettingService {
     }
 
     getProfile(): Observable<ApiResponse> {
-        return this.http.put<ApiResponse>(`${this.apiUrl}/users/profile`, {
+        return this.http.get<ApiResponse>(`${this.apiUrl}/users/profile`, {
             headers: this.headers,
         });
     }
 
-    deleteAppointment(id: string): Observable<ApiResponse> {
-        return this.http.delete<ApiResponse>(`${this.apiUrl}/bookings/admin/${id}`, {
+    updateProfile(id: string, profile: any): Observable<ApiResponse> {
+        return this.http.put<ApiResponse>(`${this.apiUrl}/users/${id}/profile`, profile, {
             headers: this.headers,
         });
     }
 
+
+    // settings
+    getNotificationSettings(): Observable<ApiResponse> {
+        return this.http.get<ApiResponse>(`${this.apiUrl}/users/settings`, {
+            headers: this.headers,
+        });
+    }
+
+    updateSettings(settings: any): Observable<ApiResponse> {
+        return this.http.put<ApiResponse>(`${this.apiUrl}/users/settings/update`, settings, {
+            headers: this.headers,
+        });
+
+    }
 }
