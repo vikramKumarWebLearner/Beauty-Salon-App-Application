@@ -7,13 +7,13 @@ import { Image } from './image/image';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [ReactiveFormsModule, LucideAngularModule, Image],
+  imports: [ReactiveFormsModule, LucideAngularModule],
   templateUrl: './profile.html',
   styleUrls: ['./profile.css'],
 })
 export class Profile implements OnInit {
 
-  @ViewChild(Image) imageComponent!: Image;
+  // @ViewChild(Image) imageComponent!: Image;
 
   private settingService = inject(SettingService);
   private fb = inject(FormBuilder);
@@ -69,9 +69,9 @@ export class Profile implements OnInit {
     });
   }
 
-  onFileSelected(event: any) {
-    this.imageComponent.onFileSelected(event);
-  }
+  // onFileSelected(event: any) {
+  //   this.imageComponent.onFileSelected(event);
+  // }
 
   updateProfile() {
     if (this.profileForm.invalid) {

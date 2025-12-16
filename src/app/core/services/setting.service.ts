@@ -46,13 +46,13 @@ export class SettingService {
 
     // settings
     getNotificationSettings(): Observable<ApiResponse> {
-        return this.http.get<ApiResponse>(`${this.apiUrl}/users/settings`, {
+        return this.http.get<ApiResponse>(`${this.apiUrl}/users/settings/notification`, {
             headers: this.headers,
         });
     }
 
     updateSettings(settings: any): Observable<ApiResponse> {
-        return this.http.put<ApiResponse>(`${this.apiUrl}/users/settings/update`, settings, {
+        return this.http.post<ApiResponse>(`${this.apiUrl}/users/settings/update/notification`, settings, {
             headers: this.headers,
         });
 

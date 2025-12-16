@@ -1,98 +1,82 @@
-<div
-    class="ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 space-y-6 mt-6">
-    <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
-        <div class="flex flex-col space-y-1.5 p-6">
-            <h3 class="text-2xl font-semibold leading-none tracking-tight">Notification Preferences</h3>
-            <p class="text-sm text-muted-foreground">Manage how you receive notifications</p>
+<div class="mt-6 space-y-6">
+
+    <div class="rounded-lg border bg-card shadow-sm">
+
+        <!-- Header -->
+        <div class="p-6">
+            <h3 class="text-2xl font-semibold">Notification Preferences</h3>
+            <p class="text-sm text-muted-foreground">
+                Manage how you receive notifications
+            </p>
         </div>
+
         <div class="p-6 pt-0 space-y-6">
-            <div class="space-y-4">
-                <div class="flex items-center justify-between">
-                    <div class="space-y-0.5">
-                        <label
-                            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                            for="email-notifications">Email Notifications</label>
-                        <p class="text-sm text-muted-foreground">Receive notifications via email</p>
-                    </div><button type="button" role="switch" aria-checked="true" data-state="checked" value="on"
-                        class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors data-[state=checked]:bg-primary data-[state=unchecked]:bg-input focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
-                        id="email-notifications"><span
-                            class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"></span></button>
+
+            <!-- Email -->
+            <div class="flex items-center justify-between">
+                <div>
+                    <label class="text-sm font-medium">Email Notifications</label>
+                    <p class="text-sm text-muted-foreground">Receive via email</p>
                 </div>
-                <div class="shrink-0 bg-border h-[1px] w-full"></div>
-                <div class="flex items-center justify-between">
-                    <div class="space-y-0.5"><label
-                            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                            for="sms-notifications">SMS Notifications</label>
-                        <p class="text-sm text-muted-foreground">Receive notifications via text message</p>
-                    </div><button type="button" role="switch" aria-checked="false" data-state="unchecked" value="on"
-                        class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors data-[state=checked]:bg-primary data-[state=unchecked]:bg-input focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
-                        id="sms-notifications"><span
-                            class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"></span></button>
-                </div>
-                <div class="shrink-0 bg-border h-[1px] w-full"></div>
-                <div class="flex items-center justify-between">
-                    <div class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        for="push-notifications"><label>Push Notifications</label>
-                        <p class="text-sm text-muted-foreground">Receive push notifications in your browser</p>
-                    </div><button type="button" role="switch" aria-checked="true" data-state="checked" value="on"
-                        class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors data-[state=checked]:bg-primary data-[state=unchecked]:bg-input focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
-                        id="push-notifications"><span
-                            class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"></span></button>
-                </div>
-                <div class="shrink-0 bg-border h-[1px] w-full"></div>
-                <div class="flex items-center justify-between">
-                    <div class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        for="marketing-emails">Marketing Emails</label>
-                        <p class="text-sm text-muted-foreground">Receive emails about new features and updates</p>
-                    </div><button type="button" role="switch" aria-checked="false" data-state="unchecked" value="on"
-                        class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors data-[state=checked]:bg-primary data-[state=unchecked]:bg-input focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
-                        id="marketing-emails"><span
-                            class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"></span></button>
-                </div>
+
+                <button type="button" role="switch" (click)="toggle('email')"
+                    [attr.aria-checked]="notificationSettings().email"
+                    [attr.data-state]="notificationSettings().email ? 'checked' : 'unchecked'" class="relative inline-flex h-6 w-11 items-center rounded-full
+                 transition-colors duration-200
+                 data-[state=checked]:bg-pink-500
+                 data-[state=unchecked]:bg-gray-300">
+
+                    <span [attr.data-state]="notificationSettings().email ? 'checked' : 'unchecked'" class="inline-block h-5 w-5 rounded-full bg-white shadow
+                   transition-transform duration-200
+                   translate-x-1
+                   data-[state=checked]:translate-x-5">
+                    </span>
+                </button>
             </div>
-            <div class="shrink-0 bg-border h-[1px] w-full"></div>
-            <div class="space-y-4">
-                <h3 class="text-sm font-medium">Notification Types</h3>
-                <div class="space-y-2">
-                    <div class="flex items-center justify-between"><label
-                            class="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 font-normal"
-                            for="appointment-reminders">Appointment Reminders</label><button type="button" role="switch"
-                            aria-checked="true"
-                            class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors data-[state=checked]:bg-primary data-[state=unchecked]:bg-input focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
-                            id="appointment-reminders"><span
-                                class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"></span></button>
-                    </div>
-                    <div class="flex items-center justify-between"><label
-                            class="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 font-normal"
-                            for="booking-confirmations">Booking Confirmations</label><button type="button" role="switch"
-                            aria-checked="true"
-                            class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors data-[state=checked]:bg-primary data-[state=unchecked]:bg-input focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
-                            id="booking-confirmations"><span
-                                class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors data-[state=checked]:bg-primary data-[state=unchecked]:bg-input focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
-                                id="booking-confirmations"><span
-                                    class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"></span></button>
-                    </div>
-                    <div class="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 font-normal"
-                        for="cancellations">Cancellation Notifications</label><button type="button" role="switch"
-                            aria-checked="true" data-state="checked" value="on"
-                            class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors data-[state=checked]:bg-primary data-[state=unchecked]:bg-input focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
-                            id="cancellations"><span
-                                class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"></span></button>
-                    </div>
-                    <div class="flex items-center justify-between"><label
-                            class="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 font-normal"
-                            for="daily-summary">Daily Summary Report</label><button type="button" role="switch"
-                            aria-checked="false" data-state="unchecked" value="on"
-                            class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors data-[state=checked]:bg-primary data-[state=unchecked]:bg-input focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
-                            id="daily-summary"><span
-                                class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors data-[state=checked]:bg-primary data-[state=unchecked]:bg-input focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
-                                id="daily-summary"><span
-                                    class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"></span></button>
-                    </div>
-                </div>
-            </div><button
-                class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full md:w-auto">Save
-                Preferences</button>
+
+            <!-- SMS -->
+            <div class="flex items-center justify-between">
+                <label class="text-sm font-medium">SMS Notifications</label>
+
+                <button type="button" role="switch" (click)="toggle('sms')"
+                    [attr.aria-checked]="notificationSettings().sms"
+                    [attr.data-state]="notificationSettings().sms ? 'checked' : 'unchecked'" class="relative inline-flex h-6 w-11 items-center rounded-full
+                 transition-colors duration-200
+                 data-[state=checked]:bg-pink-500
+                 data-[state=unchecked]:bg-gray-300">
+
+                    <span [attr.data-state]="notificationSettings().sms ? 'checked' : 'unchecked'" class="inline-block h-5 w-5 rounded-full bg-white shadow
+                   transition-transform duration-200
+                   translate-x-1
+                   data-[state=checked]:translate-x-5">
+                    </span>
+                </button>
+            </div>
+
+            <!-- Push -->
+            <div class="flex items-center justify-between">
+                <label class="text-sm font-medium">Push Notifications</label>
+
+                <button type="button" role="switch" (click)="toggle('push')"
+                    [attr.aria-checked]="notificationSettings().push"
+                    [attr.data-state]="notificationSettings().push ? 'checked' : 'unchecked'" class="relative inline-flex h-6 w-11 items-center rounded-full
+                 transition-colors duration-200
+                 data-[state=checked]:bg-pink-500
+                 data-[state=unchecked]:bg-gray-300">
+
+                    <span [attr.data-state]="notificationSettings().push ? 'checked' : 'unchecked'" class="inline-block h-5 w-5 rounded-full bg-white shadow
+                   transition-transform duration-200
+                   translate-x-1
+                   data-[state=checked]:translate-x-5">
+                    </span>
+                </button>
+            </div>
+
+            <!-- Save Button -->
+            <button (click)="save()" [disabled]="loading" class="mt-4 rounded-md bg-pink-500 px-4 py-2 text-white">
+                {{ loading ? 'Saving...' : 'Save Preferences' }}
+            </button>
+
         </div>
     </div>
 </div>
