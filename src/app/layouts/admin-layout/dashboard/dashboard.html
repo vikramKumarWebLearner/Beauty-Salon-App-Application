@@ -99,24 +99,24 @@
             <div class="p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
                 <h3 class="text-lg font-serif font-semibold mb-6">Quick Actions</h3>
                 <div class="space-y-3">
-                    <button
-                        class="inline-flex items-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-11 rounded-md px-8 w-full salon-button justify-start">
+                    <a routerLink="/admin/appointments"
+                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 rounded-md px-8 w-full">
                         <!-- <i class="lucide lucide-calendar w-5 h-5 mr-3"></i> -->
                         <lucide-icon class="w-6 h-6" name="calendar"></lucide-icon>
                         New Appointment
-                    </button>
-                    <button
+                    </a>
+                    <a routerLink="/admin/staff-management"
                         class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 rounded-md px-8 w-full">
                         <!-- <i class="lucide lucide-users w-5 h-5 mr-3"></i> -->
                         <lucide-icon class="w-6 h-6" name="users"></lucide-icon>
                         Add Staff Member
-                    </button>
-                    <button routerLink="/admin/analytics"
+                    </a>
+                    <a routerLink="/admin/analytics"
                         class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 rounded-md px-8 w-full">
                         <i class="lucide lucide-bar-chart-3 w-5 h-5 mr-3"></i>
                         <lucide-icon class="w-6 h-6" name="chart-column"></lucide-icon>
                         View Analytics
-                    </button>
+                    </a>
                 </div>
             </div>
 
