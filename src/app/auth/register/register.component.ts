@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators, ReactiveFormsModule, AbstractContro
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/auth/auth.service';
 import { NotificationService } from '../../core/services/notification.service';
-
+import { getDeviceInfo } from '../../core/utils/device-info.util';
 // Modern type definitions
 type UserType = 'customer' | 'staff';
 
@@ -174,13 +174,14 @@ export class RegisterComponent {
 
         // Get form values with proper typing
         const { name, email, phone, password, userType } = this.registerForm.getRawValue();
-
+        const device = getDeviceInfo();
         const registerData = {
             name,
             email,
             phone,
             password,
-            userType
+            userType,
+            device
         };
 
         this.#authService.register(registerData).subscribe({

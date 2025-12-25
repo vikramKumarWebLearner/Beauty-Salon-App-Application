@@ -1,0 +1,96 @@
+<!-- Password -->
+<div class="mt-6 rounded-lg border bg-card shadow-sm">
+    <div class="p-6 space-y-1.5">
+        <h3 class="text-2xl font-semibold">Password</h3>
+        <p class="text-sm text-muted-foreground">
+            Change your password to keep your account secure
+        </p>
+    </div>
+
+    <form [formGroup]="passwordForm" (ngSubmit)="updatePassword()" class="p-6 pt-0 space-y-4">
+        <div class="space-y-2">
+            <label class="text-sm font-medium">Current Password</label>
+
+            <div class="relative">
+                <input [type]="showCurrent() ? 'text' : 'password'" formControlName="currentPassword"
+                    class="input pr-10" />
+
+                <button type="button" (click)="toggleCurrent()"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                    <lucide-icon [name]="showCurrent() ? EyeOff : Eye" size="18"></lucide-icon>
+                </button>
+            </div>
+        </div>
+
+        <div class="space-y-2">
+            <label class="text-sm font-medium">New Password</label>
+
+            <div class="relative">
+                <input [type]="showNew() ? 'text' : 'password'" formControlName="newPassword" class="input pr-10" />
+
+                <button type="button" (click)="toggleNew()"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                    <lucide-icon [name]="showNew() ? EyeOff : Eye" size="18"></lucide-icon>
+                </button>
+            </div>
+        </div>
+
+
+        <div class="space-y-2">
+            <label class="text-sm font-medium">Confirm New Password</label>
+
+            <div class="relative">
+                <input [type]="showConfirm() ? 'text' : 'password'" formControlName="confirmPassword"
+                    class="input pr-10" />
+
+                <button type="button" (click)="toggleConfirm()"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                    <lucide-icon [name]="showConfirm() ? EyeOff : Eye" size="18"></lucide-icon>
+                </button>
+            </div>
+            @if (passwordForm.errors?.['passwordMismatch'] && passwordForm.touched) {
+            <p class="text-sm text-red-500">
+                Passwords do not match
+            </p>
+            }
+
+        </div>
+
+
+        <button type="submit" [disabled]="passwordForm.invalid" class="btn-primary">
+            Update Password
+        </button>
+    </form>
+</div>
+
+<!-- Active Sessions -->
+<div class="mt-4 rounded-lg border bg-card shadow-sm">
+    <div class="p-6 space-y-1.5">
+        <h3 class="text-2xl font-semibold">Active Sessions</h3>
+        <p class="text-sm text-muted-foreground">
+            Manage your active sessions across devices
+        </p>
+    </div>
+
+    <div class="p-6 pt-0 space-y-4">
+        @for (session of sessions(); track session.id){
+        <div class="flex items-center justify-between p-4 border rounded-lg">
+            <div>
+                <p class="font-medium">{{ session.device }}</p>
+                <p class="text-sm text-muted-foreground">
+                    Last active: {{ session.lastActive | timeAgo}}
+                </p>
+            </div>
+            <span *ngIf="session.current" class="badge-secondary">
+                Current
+            </span>
+        </div>
+        }
+
+
+
+        <!-- <button *ngIf="!session.current" (click)="revokeSession(session.id)" class="btn-outline">
+                Revoke
+            </button> -->
+    </div>
+</div>

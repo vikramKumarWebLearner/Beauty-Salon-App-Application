@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/auth/auth.service';
-import { NotificationService } from '../../core/services/notification.service';
+import { NotificationService } from '../../../app/public/notification.service';
 
 @Component({
     selector: 'app-logout',
@@ -38,7 +38,7 @@ export class LogoutComponent implements OnInit {
         this.authService.logout();
 
         // Show logout success message
-        this.notificationService.showLogoutSuccess();
+        this.notificationService.show('Logged out successfully', 'success');
 
         // Navigate to login page after a short delay
         setTimeout(() => {

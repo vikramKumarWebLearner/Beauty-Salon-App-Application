@@ -4,9 +4,11 @@ import { LucideAngularModule } from 'lucide-angular';
 import { Profile } from './components/profile/profile';
 import { Notification } from './components/notification/notification';
 import { SettingService } from '../../../core/services/setting.service';
+import { Security } from './components/security/security';
+import { ThemeSetting } from './components/theme-setting/theme-setting';
 @Component({
   selector: 'app-setting',
-  imports: [CommonModule, LucideAngularModule, Profile, Notification],
+  imports: [CommonModule, LucideAngularModule, Profile, Notification, Security, ThemeSetting],
   templateUrl: './setting.html',
   styleUrl: './setting.css',
 })

@@ -57,4 +57,18 @@ export class SettingService {
         });
 
     }
+
+    // security
+    updatePassword(userId: string, passwords: any): Observable<ApiResponse> {
+        return this.http.put<ApiResponse>(`${this.apiUrl}/users/${userId}/change-password`, passwords, {
+            headers: this.headers,
+        });
+    }
+
+    // deviceinfo
+    getDeviceInfo(userId: string): Observable<ApiResponse> {
+        return this.http.get<ApiResponse>(`${this.apiUrl}/users/deviceInfo/${userId}`, {
+            headers: this.headers
+        });
+    }
 }

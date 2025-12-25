@@ -3,15 +3,15 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/auth/auth.service';
-// import { NotificationService } from '../../core/services/notification.service';
 import { NotificationService } from '../../../app/public/notification.service';
-// Modern type definitions
+import { getDeviceInfo } from '../../core/utils/device-info.util';
+
 type UserType = 'customer' | 'staff' | 'admin';
 
 interface LoginForm {
     email: FormControl<string>;
     password: FormControl<string>;
-
+    // deviceInfo: FormControl<any>;
     // userType: FormControl<UserType>;
 }
 
@@ -119,8 +119,8 @@ export class LoginComponent {
 
         // Get form values with proper typing
         const { email, password } = this.loginForm.getRawValue();
-
-        this.#authService.login({ email, password }).subscribe({
+        const device = getDeviceInfo();
+        this.#authService.login({ email, password, device }).subscribe({
             next: (res) => {
                 this.isLoading.set(false);
 

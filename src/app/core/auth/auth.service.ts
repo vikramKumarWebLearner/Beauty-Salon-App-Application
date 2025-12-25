@@ -3,9 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { ConfigService } from '../services/config.service';
-import { NotificationService } from '../services/notification.service';
 import { TokenStorageService } from './token-storage.service';
-
+import { NotificationService } from '../../../app/public/notification.service';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
     private http = inject(HttpClient);
@@ -18,8 +17,8 @@ export class AuthService {
         return `${this.configService.apiUrl}/auth`;
     }
 
-    login(credentials: { email: string; password: string }): Observable<any> {
-        return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
+    login(payload: { email: string; password: string; device?: any }): Observable<any> {
+        return this.http.post(`${this.apiUrl}/login`, payload).pipe(
             tap((response: any) => {
                 console.log('Auth service processing login response:', response);
 
@@ -106,7 +105,7 @@ export class AuthService {
         localStorage.removeItem('bella_beauty_user_id');
 
         // Show logout success message
-        this.notificationService.showLogoutSuccess();
+        // this.notificationService.show('Logged out successfully', 'success');
 
         // Navigate to logout page (which will handle the redirect to login)
         this.router.navigate(['/logout']);

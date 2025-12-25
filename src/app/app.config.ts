@@ -33,7 +33,9 @@ import {
   Calculator,
   Bell,
   Shield,
-  Palette
+  Palette,
+  Eye,
+  EyeOff
 } from 'lucide-angular';
 
 export const appConfig: ApplicationConfig = {
@@ -73,7 +75,9 @@ export const appConfig: ApplicationConfig = {
         Calculator,
         Bell,
         Shield,
-        Palette
+        Palette,
+        Eye,
+        EyeOff
       })
     )
   ]
