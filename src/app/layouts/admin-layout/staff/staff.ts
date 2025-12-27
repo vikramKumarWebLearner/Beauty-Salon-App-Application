@@ -85,12 +85,12 @@ export class Staff implements OnInit {
           this.staffs.set(
             res.data.map((item: any) => ({
               id: item._id,
-              name: item?.name || item.name || 'N/A',
+              name: item?.userId?.name || item?.userId.name || 'N/A',
               experience: item?.experience || 0,
-              rating: item.rating || 0,
-              status: item.status || 'pending',
-              phone: item.phone || '',
-              email: item.email || ''
+              rating: item?.rating || 0,
+              status: item?.status || 'pending',
+              phone: item?.userId?.phone || '',
+              email: item?.userId?.email || ''
             }))
           );
           this.loading.set(false); // ✅ hide loader after success
@@ -107,28 +107,6 @@ export class Staff implements OnInit {
   onSearch(term: string) {
     this.searchTerm.set(term);
   }
-
-  // ✅ Load staff options dynamically
-  // loadStaffOptions() {
-  //   this.appointmentService.getStaffs().subscribe({
-  //     next: (res) => {
-  //       if (res && res.success && Array.isArray(res.data)) {
-  //         const staffOptions = res.data.map((staff: any) => ({
-  //           value: staff._id,
-  //           label: staff.name
-  //         }));
-
-  //         const staffField = this.formConfig.fields.find(f => f.name === 'staffId');
-  //         if (staffField) {
-  //           staffField.options = staffOptions;
-  //         }
-  //       }
-  //     },
-  //     error: (err) => {
-  //       console.error('Error loading staff list:', err);
-  //     }
-  //   });
-  // }
 
   // ✅ Load service options dynamically
   loadServiceOptions() {
@@ -152,27 +130,6 @@ export class Staff implements OnInit {
     });
   }
 
-  // ✅ Load users options dynamically
-  // loadUsersOptions() {
-  //   this.appointmentService.getUsers().subscribe({
-  //     next: (res) => {
-  //       if (res && res.success && Array.isArray(res.data)) {
-  //         const usersOptions = res.data.map((user: any) => ({
-  //           value: user._id,
-  //           label: user.name
-  //         }));
-
-  //         const usersField = this.formConfig.fields.find(f => f.name === 'userId');
-  //         if (usersField) {
-  //           usersField.options = usersOptions;
-  //         }
-  //       }
-  //     },
-  //     error: (err) => {
-  //       console.error('Error loading users list:', err);
-  //     }
-  //   });
-  // }
   // ✅ Table configuration
   tableConfig: TableConfig = {
     columns: [
@@ -284,9 +241,9 @@ export class Staff implements OnInit {
     // Map staff data to form values
     const formValues: any = {
       id: originalStaff._id,
-      name: originalStaff.name || '',
-      email: originalStaff.email || '',
-      phone: originalStaff?.phone || staff.phone || '',
+      name: originalStaff.userId?.name || '',
+      email: originalStaff.userId?.email || '',
+      phone: originalStaff.userId?.phone || '',
       serviceId: originalStaff.serviceId?._id || originalStaff.serviceId || '',
       status: originalStaff.status || 'Active',
       experience: originalStaff?.experience || 0

@@ -65,8 +65,9 @@ export class AppointmentService {
 
     //  GET STAFFS
     getStaffs(): Observable<any> {
-        return this.http.get(this.apiUrl + '/staff', {
+        return this.http.get(this.apiUrl + '/users/usersList', {
             headers: this.headers,
+            params: { role: 'staff' },
             observe: 'response' // This will give us access to the full response
         }).pipe(
             // Transform the response to match expected format
@@ -97,8 +98,9 @@ export class AppointmentService {
 
     // GET USERS
     getUsers(): Observable<any> {
-        return this.http.get(this.apiUrl + '/users', {
+        return this.http.get(this.apiUrl + '/users/usersList', {
             headers: this.headers,
+            params: { role: 'customer' },
             observe: 'response' // This will give us access to the full response
         }).pipe(
             // Transform the response to match expected format

@@ -3,11 +3,11 @@ import { CommonModule, NgClass } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
 import { DashboardService } from '../../../core/services/dashboard.service';
-
+import { TimeFormatPipe } from '../../../shared/pipes/timeFormat.pipe';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, NgClass, RouterLink, LucideAngularModule],
+  imports: [CommonModule, NgClass, RouterLink, LucideAngularModule, TimeFormatPipe],
   templateUrl: './dashboard.html'
 })
 export class Dashboard implements OnInit {
@@ -17,7 +17,7 @@ export class Dashboard implements OnInit {
   recentAppointments: any[] = [];
   totalAppointments: any = 0;
   totalRenview: number = 0;
-
+  totalHours: number = 0;
   ngOnInit() {
     // Uncomment the line below to use real API data
     this.loadDashboardData();
@@ -69,8 +69,8 @@ export class Dashboard implements OnInit {
           this.recentAppointments = data?.recentAppointments || [];
           this.totalAppointments = data?.overview?.todayAppointments || 0;
           this.totalRenview = data?.cards?.totalRevenue?.value || 0;
-        } else {
-          this.setDefaultData();
+          this.totalHours = data?.overview?.totalHoursAgg?.[0].totalHours || 0;
+          // this.setDefaultData();
         }
         this.loading.set(false); // ✅ hide loader after success
       },
