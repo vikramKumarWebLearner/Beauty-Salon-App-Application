@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/auth/auth.service';
-import { NotificationService } from '../../core/services/notification.service';
+import { NotificationService } from '../../../app/public/notification.service';
 import { getDeviceInfo } from '../../core/utils/device-info.util';
 // Modern type definitions
 type UserType = 'customer' | 'staff';
@@ -187,24 +187,32 @@ export class RegisterComponent {
         this.#authService.register(registerData).subscribe({
             next: (res) => {
                 this.isLoading.set(false);
+                // Token and role are already saved by the auth service in the tap operator
+                // Get the role from storage to ensure we have the correct value
+                const storedRole = this.#authService.getUserRole();
+                const roleToUse = storedRole || 'customer'; // Fallback to form value if API didn't provide role
 
-                // Show success message
-                this.#notificationService.showSuccess(
-                    'Account created successfully! Please check your email for verification.',
-                    'Registration Successful'
-                );
+                // If API didn't provide a role, save the form value
+                if (!storedRole) {
+                    this.#authService.setUserRole(roleToUse);
+                }
+                // Modern switch with proper typing
+                const routes: Record<UserType, string[]> = {
+                    staff: ['/staff/dashboard'],
+                    customer: ['/customer/dashboard']
+                } as const;
 
-                // Navigate to login page after successful registration
+                // Navigate after a short delay to let user see the success message
                 setTimeout(() => {
-                    this.#router.navigate(['/login']);
-                }, 2000);
+                    this.#router.navigate(routes[roleToUse as UserType]);
+                }, 1000);
+                this.#notificationService.show('Registration successful.', 'success');
             },
             error: (err) => {
                 this.isLoading.set(false);
-                console.error('Registration error:', err);
                 const errorMessage = err.error?.message || err.message || 'Registration failed. Please try again.';
                 this.errorMessage.set(errorMessage);
-                this.#notificationService.showError(errorMessage, 'Registration Failed');
+                this.#notificationService.show(errorMessage, 'error');
             }
         });
     }

@@ -20,8 +20,6 @@ export class AuthService {
     login(payload: { email: string; password: string; device?: any }): Observable<any> {
         return this.http.post(`${this.apiUrl}/login`, payload).pipe(
             tap((response: any) => {
-                console.log('Auth service processing login response:', response);
-
                 // Handle different response structures
                 const token = response.data?.token ?? response.token ?? response.access_token;
                 const role = response.data?.role ?? response.role ?? response.user?.role;
@@ -30,7 +28,6 @@ export class AuthService {
                 // Save token if present
                 if (token) {
                     this.tokenStorage.saveToken(token);
-                    console.log('Token saved successfully');
                 } else {
                     console.warn('No token found in login response');
                 }
@@ -38,7 +35,6 @@ export class AuthService {
                 // Save role if present
                 if (role) {
                     this.tokenStorage.saveUserRole(role);
-                    console.log('Role saved successfully:', role);
                 } else {
                     console.warn('No role found in login response');
                 }
@@ -52,49 +48,33 @@ export class AuthService {
     }
 
 
-    register(userData: {
-        name: string;
-        email: string;
-        phone: string;
-        password: string;
-        userType: string
-    }): Observable<any> {
-        // For development/testing purposes, simulate API call
-        if (!this.configService.isProduction) {
-            return new Observable(observer => {
-                setTimeout(() => {
-                    // Mock successful registration response
-                    if (userData.email && userData.password && userData.name) {
-                        // Simulate email already exists error occasionally for testing
-                        if (userData.email === 'test@existing.com') {
-                            observer.error({
-                                error: { message: 'Email already exists' }
-                            });
-                            return;
-                        }
+    register(userData: { name: string; email: string; phone: string; password: string; userType: string; device?: any }): Observable<any> {
+        return this.http.post(`${this.apiUrl}/register`, userData).pipe(
+            tap((response: any) => {
+                // Handle different response structures
+                const token = response.data?.token ?? response.token ?? response.access_token;
+                const role = response.data?.role ?? response.role ?? response.user?.role;
+                const user = response.data?.user ?? response.user;
 
-                        observer.next({
-                            message: 'Registration successful',
-                            user: {
-                                id: Date.now(),
-                                email: userData.email,
-                                name: userData.name,
-                                phone: userData.phone,
-                                userType: userData.userType
-                            }
-                        });
-                        observer.complete();
-                    } else {
-                        observer.error({
-                            error: { message: 'All fields are required' }
-                        });
-                    }
-                }, 1500); // Simulate network delay
-            });
-        }
+                // Save token if present
+                if (token) {
+                    this.tokenStorage.saveToken(token);
+                } else {
+                    console.warn('No token found in login response');
+                }
 
-        // Production API call
-        return this.http.post(`${this.apiUrl}/register`, userData);
+                // Save role if present
+                if (role) {
+                    this.tokenStorage.saveUserRole(role);
+                } else {
+                    console.warn('No role found in login response');
+                }
+                // Save additional user data if needed
+                if (user && user.id) {
+                    localStorage.setItem('bella_beauty_user_id', user.id.toString());
+                }
+            })
+        );
     }
 
     logout() {
