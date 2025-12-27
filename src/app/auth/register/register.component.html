@@ -45,11 +45,24 @@
             </div>
 
             <div class="space-y-2">
-                <label class="block text-sm font-medium text-gray-700" for="password">Password</label>
-                <input id="password" type="password" formControlName="password" placeholder="Enter your password"
-                    (input)="onFieldInput()"
-                    [class]="'w-full rounded-[10px] border px-4 py-2 focus:outline-none focus:ring-2 ' + 
-                    (hasFieldError('password') ? 'border-red-500 bg-red-50 focus:ring-red-300' : 'border-gray-200 bg-amber-50 focus:ring-pink-300')" />
+                <label class="block text-sm font-medium text-gray-700" for="password">
+                    Password
+                </label>
+
+                <div class="relative">
+                    <input id="password" [type]="showCurrent() ? 'text' : 'password'" formControlName="password"
+                        placeholder="Enter your password" (input)="onFieldInput()" [class]="'w-full rounded-[10px] border px-4 py-2 pr-10 focus:outline-none focus:ring-2 ' +
+      (hasFieldError('password')
+        ? 'border-red-500 bg-red-50 focus:ring-red-300'
+        : 'border-gray-200 bg-amber-50 focus:ring-pink-300')" />
+
+                    <!-- Eye toggle -->
+                    <button type="button" (click)="toggleCurrent()"
+                        class="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700">
+                        <lucide-icon [name]="showCurrent() ? EyeOff : Eye" size="18"></lucide-icon>
+                    </button>
+                </div>
+
                 @if (hasFieldError('password')) {
                 <div class="text-sm text-red-600 mt-1">
                     {{ getFieldError('password') }}
@@ -57,18 +70,34 @@
                 }
             </div>
 
+
             <div class="space-y-2">
-                <label class="block text-sm font-medium text-gray-700" for="confirmPassword">Confirm Password</label>
-                <input id="confirmPassword" type="password" formControlName="confirmPassword"
-                    placeholder="Confirm your password" (input)="onFieldInput()"
-                    [class]="'w-full rounded-[10px] border px-4 py-2 focus:outline-none focus:ring-2 ' + 
-                    (hasFieldError('confirmPassword') ? 'border-red-500 bg-red-50 focus:ring-red-300' : 'border-gray-200 bg-amber-50 focus:ring-pink-300')" />
+                <label class="block text-sm font-medium text-gray-700" for="confirmPassword">
+                    Confirm Password
+                </label>
+
+                <div class="relative">
+                    <input id="confirmPassword" [type]="showConfirm() ? 'text' : 'password'"
+                        formControlName="confirmPassword" placeholder="Confirm your password" (input)="onFieldInput()"
+                        [class]="'w-full rounded-[10px] border px-4 py-2 pr-10 focus:outline-none focus:ring-2 ' +
+      (hasFieldError('confirmPassword')
+        ? 'border-red-500 bg-red-50 focus:ring-red-300'
+        : 'border-gray-200 bg-amber-50 focus:ring-pink-300')" />
+
+                    <!-- Eye toggle -->
+                    <button type="button" (click)="toggleConfirm()"
+                        class="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700">
+                        <lucide-icon [name]="showConfirm() ? EyeOff : Eye" size="18"></lucide-icon>
+                    </button>
+                </div>
+
                 @if (hasFieldError('confirmPassword')) {
                 <div class="text-sm text-red-600 mt-1">
                     {{ getFieldError('confirmPassword') }}
                 </div>
                 }
             </div>
+
 
             <div class="space-y-3 hidden ">
                 <label class="block text-sm font-medium text-gray-700">Register as:</label>
@@ -90,8 +119,8 @@
                 <input id="agreeTerms" type="checkbox" formControlName="agreeTerms"
                     class="w-4 h-4 text-pink-500 bg-gray-100 border-gray-300 rounded focus:ring-pink-500" />
                 <label for="agreeTerms" class="text-sm text-gray-700">
-                    I agree to the <a href="/terms" class="text-pink-600 hover:underline">Terms of Service</a> and
-                    <a href="/privacy" class="text-pink-600 hover:underline">Privacy Policy</a>
+                    I agree to the <a routerLink="/terms" class="text-pink-600 hover:underline">Terms of Service</a> and
+                    <a routerLink="/privacy" class="text-pink-600 hover:underline">Privacy Policy</a>
                 </label>
             </div>
             @if (hasFieldError('agreeTerms')) {
@@ -128,7 +157,7 @@
             <div class="text-center">
                 <p class="text-sm text-gray-500">
                     Already have an account?
-                    <a href="/login" class="text-pink-600 hover:underline">Sign in</a>
+                    <a routerLink="/login" class="text-pink-600 hover:underline">Sign in</a>
                 </p>
             </div>
         </form>

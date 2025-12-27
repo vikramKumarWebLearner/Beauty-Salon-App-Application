@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/auth/auth.service';
 import { NotificationService } from '../../../app/public/notification.service';
 import { getDeviceInfo } from '../../core/utils/device-info.util';
-
+import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
 type UserType = 'customer' | 'staff' | 'admin';
 
 interface LoginForm {
@@ -18,7 +18,7 @@ interface LoginForm {
 @Component({
     selector: 'app-login',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, RouterLink],
+    imports: [CommonModule, ReactiveFormsModule, RouterLink, LucideAngularModule],
     templateUrl: './login.component.html',
 })
 export class LoginComponent {
@@ -26,6 +26,12 @@ export class LoginComponent {
     readonly #authService = inject(AuthService);
     readonly #router = inject(Router);
     private toast = inject(NotificationService);
+
+    // 👁 Password visibility toggles
+    showCurrent = signal(false);
+    readonly Eye = Eye;
+    readonly EyeOff = EyeOff;
+
 
     // Signal-based state management
     readonly errorMessage = signal('');
@@ -156,5 +162,10 @@ export class LoginComponent {
                 this.toast.show(errorMessage, 'error');
             }
         });
+    }
+
+
+    toggleCurrent() {
+        this.showCurrent.update(v => !v);
     }
 }

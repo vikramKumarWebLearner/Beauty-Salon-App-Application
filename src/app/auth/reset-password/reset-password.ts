@@ -4,9 +4,10 @@ import { FormControl, FormGroup, Validators, ReactiveFormsModule, ValidationErro
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/auth/auth.service';
 import { NotificationService } from '../../../app/public/notification.service';
+import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
 @Component({
   selector: 'app-reset-password',
-  imports: [RouterLink, ReactiveFormsModule, CommonModule],
+  imports: [RouterLink, ReactiveFormsModule, CommonModule, LucideAngularModule],
   templateUrl: './reset-password.html',
   styleUrl: './reset-password.css',
 })
@@ -15,6 +16,11 @@ export class ResetPassword {
   private authService = inject(AuthService);
   private notificationService = inject(NotificationService);
   private activatedRoute = inject(ActivatedRoute);
+  // 👁 Password visibility toggles
+  showCurrent = signal(false);
+  showConfirm = signal(false);
+  readonly Eye = Eye;
+  readonly EyeOff = EyeOff;
 
   resetPasswordForm = new FormGroup({
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
@@ -76,5 +82,13 @@ export class ResetPassword {
         this.notificationService.show(error?.error?.message || 'An error occurred. Please try again.', 'error');
       }
     });
+  }
+
+  toggleCurrent() {
+    this.showCurrent.update(v => !v);
+  }
+
+  toggleConfirm() {
+    this.showConfirm.update(v => !v);
   }
 }

@@ -24,38 +24,30 @@
             </div>
 
             <div class="space-y-2">
-                <label class="block text-sm font-medium text-gray-700" for="password">Password</label>
-                <input id="password" type="password" formControlName="password" placeholder="Enter your password"
-                    (input)="onFieldInput()"
-                    [class]="'w-full rounded-[10px] border px-4 py-2 focus:outline-none focus:ring-2 ' + 
-                    (hasFieldError('password') ? 'border-red-500 bg-red-50 focus:ring-red-300' : 'border-gray-200 bg-amber-50 focus:ring-pink-300')" />
+                <label class="block text-sm font-medium text-gray-700" for="password">
+                    Password
+                </label>
+
+                <div class="relative">
+                    <input id="password" [type]="showCurrent() ? 'text' : 'password'" formControlName="password"
+                        placeholder="Enter your password" (input)="onFieldInput()" [class]="'w-full rounded-[10px] border px-4 py-2 pr-10 focus:outline-none focus:ring-2 ' +
+      (hasFieldError('password')
+        ? 'border-red-500 bg-red-50 focus:ring-red-300'
+        : 'border-gray-200 bg-amber-50 focus:ring-pink-300')" />
+
+                    <!-- Lucide Eye Toggle -->
+                    <button type="button" (click)="toggleCurrent()"
+                        class="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700">
+                        <lucide-icon [name]="showCurrent() ? EyeOff : Eye" size="18"></lucide-icon>
+                    </button>
+                </div>
+
                 @if (hasFieldError('password')) {
                 <div class="text-sm text-red-600 mt-1">
                     {{ getFieldError('password') }}
                 </div>
                 }
             </div>
-
-            <!-- <div class="space-y-3">
-                <label class="block text-sm font-medium text-gray-700">Login as:</label>
-                <div class="space-y-2">
-                    <label class="flex items-center space-x-2">
-                        <input type="radio" name="userType" value="customer" formControlName="userType"
-                            class="w-4 h-4 text-pink-500 bg-gray-100 border-gray-300 focus:ring-pink-500" />
-                        <span class="text-sm text-gray-700">Customer</span>
-                    </label>
-                    <label class="flex items-center space-x-2">
-                        <input type="radio" name="userType" value="staff" formControlName="userType"
-                            class="w-4 h-4 text-pink-500 bg-gray-100 border-gray-300 focus:ring-pink-500" />
-                        <span class="text-sm text-gray-700">Staff</span>
-                    </label>
-                    <label class="flex items-center space-x-2">
-                        <input type="radio" name="userType" value="admin" formControlName="userType"
-                            class="w-4 h-4 text-pink-500 bg-gray-100 border-gray-300 focus:ring-pink-500" />
-                        <span class="text-sm text-gray-700">Admin</span>
-                    </label>
-                </div>
-            </div> -->
 
             <button type="submit" [disabled]="isLoading()"
                 class="w-full rounded-[10px] bg-pink-500 text-white font-medium py-3 hover:bg-pink-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">

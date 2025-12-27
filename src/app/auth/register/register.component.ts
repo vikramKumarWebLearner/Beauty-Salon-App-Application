@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/auth/auth.service';
 import { NotificationService } from '../../../app/public/notification.service';
 import { getDeviceInfo } from '../../core/utils/device-info.util';
+import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
 // Modern type definitions
 type UserType = 'customer' | 'staff';
 
@@ -33,7 +34,7 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
 @Component({
     selector: 'app-register',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule],
+    imports: [CommonModule, ReactiveFormsModule, LucideAngularModule],
     templateUrl: './register.component.html',
 })
 export class RegisterComponent {
@@ -46,10 +47,16 @@ export class RegisterComponent {
     readonly errorMessage = signal('');
     readonly isLoading = signal(false);
 
+    // 👁 Password visibility toggles
+    showCurrent = signal(false);
+    showConfirm = signal(false);
+    readonly Eye = Eye;
+    readonly EyeOff = EyeOff;
+
     // Modern FormGroup with typed controls
     readonly registerForm = new FormGroup<RegisterForm>({
         name: new FormControl('', {
-            validators: [Validators.required, Validators.minLength(2)],
+            validators: [Validators.required, Validators.minLength(3)],
             nonNullable: true
         }),
         email: new FormControl('', {
@@ -61,7 +68,7 @@ export class RegisterComponent {
             nonNullable: true
         }),
         password: new FormControl('', {
-            validators: [Validators.required, Validators.minLength(8)],
+            validators: [Validators.required, Validators.minLength(6)],
             nonNullable: true
         }),
         confirmPassword: new FormControl('', {
@@ -215,5 +222,12 @@ export class RegisterComponent {
                 this.#notificationService.show(errorMessage, 'error');
             }
         });
+    }
+
+    toggleCurrent() {
+        this.showCurrent.update(v => !v);
+    }
+    toggleConfirm() {
+        this.showConfirm.update(v => !v);
     }
 }
