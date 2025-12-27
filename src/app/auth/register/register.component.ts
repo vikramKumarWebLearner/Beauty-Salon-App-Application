@@ -1,5 +1,5 @@
 import { Component, inject, signal, computed, effect } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/auth/auth.service';
@@ -34,7 +34,7 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
 @Component({
     selector: 'app-register',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, LucideAngularModule],
+    imports: [CommonModule, ReactiveFormsModule, LucideAngularModule, RouterLink],
     templateUrl: './register.component.html',
 })
 export class RegisterComponent {
