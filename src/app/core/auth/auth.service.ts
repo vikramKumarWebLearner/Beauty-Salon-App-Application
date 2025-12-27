@@ -155,7 +155,13 @@ export class AuthService {
         return this.hasRole('customer');
     }
 
+    // Forgot Password
     forgotPassword(payload: { email: string }): Observable<any> {
         return this.http.post(`${this.apiUrl}/forgot-password`, payload);
+    }
+
+    // Reset Password
+    resetPassword(payload: { token: string; password: string, confirmPassword: string }): Observable<any> {
+        return this.http.post(`${this.apiUrl}/reset-password`, payload);
     }
 }
