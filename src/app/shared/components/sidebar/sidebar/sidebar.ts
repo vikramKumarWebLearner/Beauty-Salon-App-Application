@@ -1,9 +1,9 @@
 // sidebar.component.ts
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, signal, EventEmitter } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SidebarItem } from '../../../../core/models/sidebar-item.model';
-
+import { ScreenHelper } from '../../../../core/utils/device-info.util';
 
 @Component({
   selector: 'app-sidebar',
@@ -15,5 +15,6 @@ import { SidebarItem } from '../../../../core/models/sidebar-item.model';
 export class SidebarComponent {
   @Input() items: SidebarItem[] = [];
   @Input() collapsed = false;
-
+  @Output() isMobiletoggleSidebar = new EventEmitter<void>();
+  checkDeviceType = signal<boolean>(ScreenHelper.isMobile());
 }

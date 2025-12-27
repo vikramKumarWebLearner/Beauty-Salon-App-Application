@@ -41,12 +41,19 @@
 /* Modal Container */
 .modal-content {
     background: white;
-    width: 400px;
+    width: min(95%, 400px);
+    max-width: 95%;
     border-radius: 14px;
-    padding: 25px;
+    padding: 20px;
     position: relative;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
     animation: popup 0.3s ease;
+}
+
+@media (min-width: 640px) {
+    .modal-content {
+        padding: 25px;
+    }
 }
 
 @keyframes popup {
@@ -88,7 +95,7 @@
 
 .image-preview {
     max-width: 100%;
-    max-height: 220px;
+    max-height: min(40vh, 220px);
     border-radius: 10px;
     object-fit: contain;
     border: 1px solid #ddd;

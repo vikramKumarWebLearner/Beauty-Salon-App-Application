@@ -199,3 +199,61 @@
         box-shadow: var(--shadow-glow);
     }
 }
+
+/* Responsive helpers - mobile-first */
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+    /* Prevent horizontal scroll caused by elements wider than viewport */
+}
+
+/* Make media scale naturally */
+img,
+picture,
+video,
+svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Ensure modal overlays are padded on small screens */
+.modal-overlay {
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+/* Utility for table wrappers (already used in components) */
+.table-responsive {
+    width: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table-responsive table {
+    width: 100%;
+    min-width: 0;
+    /* allow table to shrink inside container on small screens */
+    table-layout: auto;
+}
+
+.table-responsive td,
+.table-responsive th {
+    white-space: normal;
+    /* allow wrapping */
+    word-break: break-word;
+}
+
+/* Improve container padding mobile-first */
+.container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+    .container {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}

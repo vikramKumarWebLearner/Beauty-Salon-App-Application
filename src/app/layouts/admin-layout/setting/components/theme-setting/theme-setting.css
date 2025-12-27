@@ -6,10 +6,16 @@
     background: #ffffff;
     border-radius: 12px;
     padding: 24px;
-    max-width: 480px;
+    max-width: min(95%, 480px);
 
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
     border: 1px dashed #f1c40f;
+}
+
+@media (max-width: 640px) {
+    .under-dev-card {
+        padding: 16px;
+    }
 }
 
 .icon {

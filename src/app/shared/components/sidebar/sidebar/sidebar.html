@@ -9,12 +9,23 @@
             <h2 class="font-semibold text-gray-800">Admin Panel</h2>
             <span class="bg-pink-500 text-white text-xs px-2 py-1 rounded-full mt-1">Administrator</span>
         </div>
+        <button class="text-gray-700 text-2xl focus:outline-none absolute right-[21px] top-[25px] "
+            aria-label="Toggle sidebar" [ngClass]="checkDeviceType() ? '' : 'hidden' "
+            (click)="isMobiletoggleSidebar.emit()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-panel-left">
+                <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+                <path d="M9 3v18"></path>
+            </svg>
+        </button>
     </div>
     <!-- Navigation -->
     <nav class="flex-1 p-4">
         <h6 [ngClass]="collapsed ? 'hidden' : '' " class="text-gray-600 text-xs uppercase m-3">Navigation</h6>
         <ul class="space-y-1 mt-4">
-            <li *ngFor="let item of items" class="list-none">
+            @for(item of items; track item.label){
+            <li class="list-none">
                 <a [routerLink]="item.route" routerLinkActive="bg-pink-500 text-white"
                     [routerLinkActiveOptions]="{ exact: true }" [ngClass]="collapsed ? 'rounded-md' : '' "
                     class="flex items-center gap-3 px-2 py-2 rounded-full transition-colors duration-200 text-sm text-gray-500 hover:bg-gray-100">
@@ -22,6 +33,8 @@
                     <span [ngClass]="collapsed ? 'hidden' : '' ">{{ item.label }}</span>
                 </a>
             </li>
+            }
+
         </ul>
     </nav>
 

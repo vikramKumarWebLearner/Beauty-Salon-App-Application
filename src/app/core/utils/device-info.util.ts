@@ -9,3 +9,25 @@ export const getDeviceInfo = () => {
         language: navigator.language
     };
 };
+
+
+export class ScreenHelper {
+
+    static getWidth(): number {
+        return window.innerWidth;
+    }
+
+    static isMobile(): boolean {
+        return window.innerWidth <= 768;
+    }
+
+    static isTablet(): boolean {
+        return window.innerWidth > 768 && window.innerWidth <= 1024;
+    }
+
+    static isDesktop(): boolean {
+        return window.innerWidth > 1024;
+    }
+
+}
+

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SidebarItem } from '../../../core/models/sidebar-item.model';
 import { Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from '../../../shared/navbar/navbar';
+import { ScreenHelper } from '../../../core/utils/device-info.util';
 @Component({
   selector: 'app-admin-dashboard',
   imports: [SidebarComponent, CommonModule, RouterOutlet, NavbarComponent],
@@ -24,15 +25,26 @@ export class AdminDashboard {
   ];
   readonly #router = inject(Router);
   protected collapsed = signal<boolean>(false);
+  protected sidebarOpen = signal<boolean>(false);
   protected readonly sidebarItems = signal<SidebarItem[]>(this.initialSidebarItems);
-
-  // protected sidebarOpen = signal<boolean>(true);
-
   get activeRoute(): string {
     return this.#router.url;
   }
 
   toggleSidebar(): void {
-    this.collapsed.update((current) => !current);
+    // On small screens, open an overlay sidebar; on larger screens, toggle collapse
+    if (typeof window !== 'undefined' && window.innerWidth <= 640) {
+      this.sidebarOpen.update((v) => !v);
+    } else {
+      this.collapsed.update((current) => !current);
+    }
+  }
+
+  closeMobileSidebar(): void {
+    this.sidebarOpen.set(false);
+  }
+
+  isMobileToggleSidebar(): void {
+    this.sidebarOpen.update((v) => !v);
   }
 }
