@@ -154,4 +154,8 @@ export class AuthService {
     isCustomer(): boolean {
         return this.hasRole('customer');
     }
+
+    forgotPassword(payload: { email: string }): Observable<any> {
+        return this.http.post(`${this.apiUrl}/forgot-password`, payload);
+    }
 }

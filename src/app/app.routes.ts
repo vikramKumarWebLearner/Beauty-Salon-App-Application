@@ -7,12 +7,14 @@ import { AuthGuard } from './core/auth/guards/auth.guard';
 import { RoleGuard } from './core/auth/guards/role.guard';
 import { Home } from './layouts/public-layout/home/home';
 import { ToastComponent } from './public/toast.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password';
 export const routes: Routes = [
     // 🌐 Public Routes
     { path: '', component: Home },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'logout', component: LogoutComponent },
+    { path: 'forgot-password', component: ForgotPasswordComponent },
 
     // 🔒 Admin Routes (Protected by Auth + Role Guards)
     {
