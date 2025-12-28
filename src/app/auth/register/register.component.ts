@@ -211,9 +211,7 @@ export class RegisterComponent {
                 } as const;
 
                 // Navigate after a short delay to let user see the success message
-                setTimeout(() => {
-                    this.#router.navigate(routes[roleToUse as Role]);
-                }, 1000);
+                this.#router.navigate(routes[roleToUse as Role]);
                 this.#notificationService.show('Registration successful.', 'success');
             },
             error: (err) => {

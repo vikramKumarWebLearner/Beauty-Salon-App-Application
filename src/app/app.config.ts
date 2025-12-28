@@ -35,7 +35,8 @@ import {
   Shield,
   Palette,
   Eye,
-  EyeOff
+  EyeOff,
+  House
 } from 'lucide-angular';
 
 export const appConfig: ApplicationConfig = {
@@ -77,7 +78,8 @@ export const appConfig: ApplicationConfig = {
         Shield,
         Palette,
         Eye,
-        EyeOff
+        EyeOff,
+        House
       })
     )
   ]

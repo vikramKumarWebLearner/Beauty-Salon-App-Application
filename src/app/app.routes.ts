@@ -9,6 +9,7 @@ import { Home } from './layouts/public-layout/home/home';
 import { ToastComponent } from './public/toast.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password';
 import { ResetPassword } from './auth/reset-password/reset-password';
+import { StaffDashboard } from './layouts/staff-layout/staff-dashboard/staff-dashboard';
 export const routes: Routes = [
     // 🌐 Public Routes
     { path: '', component: Home },
@@ -75,9 +76,28 @@ export const routes: Routes = [
         ],
     },
 
+    // staff Routes can be added here similarly
+    {
+        path: 'staff',
+        canActivate: [AuthGuard, RoleGuard],
+        data: { roles: ['staff'] },
+        children: [
+            {
+                path: '',
+                component: StaffDashboard,
+                children: [
+                    {
+                        path: 'dashboard',
+                        loadComponent: () =>
+                            import('./layouts/staff-layout/dashboard/dashboard').then(
+                                (m) => m.Dashboard
+                            ),
+                    }
+                ],
+            },
+        ],
+    },
     // 🧪 Demo & Testing Routes
-    // { path: 'demo/notifications', component: NotificationDemoComponent },
-    // { path: 'test/notifications', component: NotificationTestComponent },
     { path: 'toastMessage', component: ToastComponent },
     // 🚨 Fallback Route
     { path: '**', redirectTo: 'login' },

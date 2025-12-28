@@ -148,11 +148,8 @@ export class LoginComponent {
                     staff: ['/staff/dashboard'],
                     customer: ['/customer/dashboard']
                 } as const;
-
                 // Navigate after a short delay to let user see the success message
-                setTimeout(() => {
-                    this.#router.navigate(routes[roleToUse as UserType]);
-                }, 1000);
+                this.#router.navigate(routes[roleToUse as UserType]);
             },
             error: (err) => {
                 this.isLoading.set(false);
