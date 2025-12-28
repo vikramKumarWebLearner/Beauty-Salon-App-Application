@@ -48,7 +48,7 @@ export class AuthService {
     }
 
 
-    register(userData: { name: string; email: string; phone: string; password: string; userType: string; device?: any }): Observable<any> {
+    register(userData: { name: string; email: string; phone: string; password: string; role: string; device?: any }): Observable<any> {
         return this.http.post(`${this.apiUrl}/register`, userData).pipe(
             tap((response: any) => {
                 // Handle different response structures

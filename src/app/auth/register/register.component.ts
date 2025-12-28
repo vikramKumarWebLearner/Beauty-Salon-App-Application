@@ -7,7 +7,7 @@ import { NotificationService } from '../../../app/public/notification.service';
 import { getDeviceInfo } from '../../core/utils/device-info.util';
 import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
 // Modern type definitions
-type UserType = 'customer' | 'staff';
+type Role = 'customer' | 'staff';
 
 interface RegisterForm {
     name: FormControl<string>;
@@ -15,7 +15,7 @@ interface RegisterForm {
     phone: FormControl<string>;
     password: FormControl<string>;
     confirmPassword: FormControl<string>;
-    userType: FormControl<UserType>;
+    role: FormControl<Role>;
     agreeTerms: FormControl<boolean>;
 }
 
@@ -75,7 +75,7 @@ export class RegisterComponent {
             validators: [Validators.required],
             nonNullable: true
         }),
-        userType: new FormControl<UserType>('customer', {
+        role: new FormControl<Role>('customer', {
             validators: [Validators.required],
             nonNullable: true
         }),
@@ -154,7 +154,7 @@ export class RegisterComponent {
             phone: 'Phone number',
             password: 'Password',
             confirmPassword: 'Confirm password',
-            userType: 'User type',
+            role: 'Role',
             agreeTerms: 'Terms agreement'
         };
         return displayNames[fieldName];
@@ -178,16 +178,17 @@ export class RegisterComponent {
 
         this.isLoading.set(true);
         this.errorMessage.set('');
+        console.log(this.registerForm.getRawValue());
 
         // Get form values with proper typing
-        const { name, email, phone, password, userType } = this.registerForm.getRawValue();
+        const { name, email, phone, password, role } = this.registerForm.getRawValue();
         const device = getDeviceInfo();
         const registerData = {
             name,
             email,
             phone,
             password,
-            userType,
+            role,
             device
         };
 
@@ -204,14 +205,14 @@ export class RegisterComponent {
                     this.#authService.setUserRole(roleToUse);
                 }
                 // Modern switch with proper typing
-                const routes: Record<UserType, string[]> = {
+                const routes: Record<Role, string[]> = {
                     staff: ['/staff/dashboard'],
                     customer: ['/customer/dashboard']
                 } as const;
 
                 // Navigate after a short delay to let user see the success message
                 setTimeout(() => {
-                    this.#router.navigate(routes[roleToUse as UserType]);
+                    this.#router.navigate(routes[roleToUse as Role]);
                 }, 1000);
                 this.#notificationService.show('Registration successful.', 'success');
             },
