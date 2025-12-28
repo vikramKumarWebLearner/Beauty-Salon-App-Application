@@ -69,8 +69,7 @@ export class Dashboard implements OnInit {
           this.recentAppointments = data?.recentAppointments || [];
           this.totalAppointments = data?.overview?.todayAppointments || 0;
           this.totalRenview = data?.cards?.totalRevenue?.value || 0;
-          this.totalHours = data?.overview?.totalHoursAgg?.[0].totalHours || 0;
-          // this.setDefaultData();
+          this.totalHours = data?.overview?.totalHoursAgg?.[0] ? data?.overview?.totalHoursAgg?.[0].totalHours || 0 : 0;
         }
         this.loading.set(false); // ✅ hide loader after success
       },

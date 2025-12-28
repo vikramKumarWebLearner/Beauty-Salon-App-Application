@@ -31,3 +31,7 @@ export class ScreenHelper {
 
 }
 
+export const getRoleFromStorage = (): string | null => {
+    return localStorage.getItem('bella_beauty_role');
+}
+
