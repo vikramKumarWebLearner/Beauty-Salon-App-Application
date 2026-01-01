@@ -10,9 +10,18 @@ import { ToastComponent } from './public/toast.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password';
 import { ResetPassword } from './auth/reset-password/reset-password';
 import { StaffDashboard } from './layouts/staff-layout/staff-dashboard/staff-dashboard';
+import { About } from './layouts/public-layout/about/about';
+import { PublicLayout } from './layouts/public-layout/public-layout';
 export const routes: Routes = [
-    // 🌐 Public Routes
-    { path: '', component: Home },
+    // 🌐 Public Routes (wrapped by PublicLayout)
+    {
+        path: '',
+        component: PublicLayout,
+        children: [
+            { path: '', component: Home },
+            { path: 'about', component: About },
+        ],
+    },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'logout', component: LogoutComponent },

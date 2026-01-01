@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
-import { Header } from '../../../shared/components/public/header/header';
-import { Router, RouterOutlet } from '@angular/router';
 import { HeaderItem } from '../../../core/models/header-item.model';
 import { CommonModule } from '@angular/common';
-import { Footer } from '../../../shared/components/public/footer/footer';
 @Component({
   selector: 'app-home',
-  imports: [Header, RouterOutlet, CommonModule, Footer],
+  imports: [CommonModule],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
