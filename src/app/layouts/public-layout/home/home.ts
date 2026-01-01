@@ -12,7 +12,7 @@ export class Home {
     { path: '/', label: 'Home' },
     { path: '/services', label: 'Services' },
     { path: '/gallery', label: 'Gallery' },
-    { path: '/pricing', label: 'Pricing' },
+    // { path: '/pricing', label: 'Pricing' },
     { path: '/team', label: 'Team' },
     { path: '/testimonials', label: 'Reviews' },
     { path: '/about', label: 'About' },

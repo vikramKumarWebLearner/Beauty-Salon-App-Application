@@ -20,6 +20,11 @@ export const routes: Routes = [
         children: [
             { path: '', component: Home },
             { path: 'about', component: About },
+            { path: 'services', loadComponent: () => import('./layouts/public-layout/services/services').then(m => m.Services) },
+            { path: 'gallery', loadComponent: () => import('./layouts/public-layout/gallery/gallery').then(m => m.Gallery) },
+            { path: 'team', loadComponent: () => import('./layouts/public-layout/team/team').then(m => m.Team) },
+            { path: 'testimonials', loadComponent: () => import('./layouts/public-layout/testimonials/testimonials').then(m => m.Testimonials) },
+            { path: 'contact', loadComponent: () => import('./layouts/public-layout/contact/contact').then(m => m.Contact) },
         ],
     },
     { path: 'login', component: LoginComponent },
