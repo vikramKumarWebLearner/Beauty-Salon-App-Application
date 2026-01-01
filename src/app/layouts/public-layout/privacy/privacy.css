@@ -1,0 +1,29 @@
+/* Privacy page styles */
+
+/* Ensure content is not too wide on very large screens */
+@media (min-width: 1024px) {
+    .container {
+        max-width: 1100px;
+    }
+}
+
+/* Card appearance */
+section[id] {
+    background: transparent;
+}
+
+/* Sticky TOC visuals */
+aside .sticky {
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+}
+
+/* Accessibility: focus states */
+a:focus {
+    outline: 3px solid rgba(236, 72, 153, 0.15);
+    outline-offset: 2px;
+}
+
+/* Small tweaks */
+h1 {
+    color: #111827;
+}

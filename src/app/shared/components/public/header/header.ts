@@ -24,6 +24,7 @@ export class Header {
     { path: '/team', label: 'Team' },
     { path: '/testimonials', label: 'Reviews' },
     { path: '/about', label: 'About' },
+    // { path: '/privacy', label: 'Privacy' },
     // { path: '/blog', label: 'Blog' },
     { path: '/contact', label: 'Contact' },
   ];

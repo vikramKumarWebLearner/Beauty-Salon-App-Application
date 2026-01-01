@@ -25,6 +25,7 @@ export const routes: Routes = [
             { path: 'team', loadComponent: () => import('./layouts/public-layout/team/team').then(m => m.Team) },
             { path: 'testimonials', loadComponent: () => import('./layouts/public-layout/testimonials/testimonials').then(m => m.Testimonials) },
             { path: 'contact', loadComponent: () => import('./layouts/public-layout/contact/contact').then(m => m.Contact) },
+            { path: 'privacy', loadComponent: () => import('./layouts/public-layout/privacy/privacy').then(m => m.Privacy) },
         ],
     },
     { path: 'login', component: LoginComponent },
